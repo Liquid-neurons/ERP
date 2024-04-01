@@ -3,8 +3,8 @@ import './form.css';
 
 function EmployeeForm() {
   const [formData, setFormData] = useState({
-    TcId: '',
-    TcDesc: '',
+    TCID: '',
+    TCDESC: '',
   });
 
   const handleChange = (e) => {
@@ -39,7 +39,11 @@ function EmployeeForm() {
     })
     .then(data => {
       console.log('Success:', data);
-      // Optionally, you can perform any additional actions here
+      if (data.success) {
+        alert('Data entered successfully');
+      } else {
+        alert('Failed to enter data');
+      }
     })
     .catch(error => {
       console.error('Error:', error);
@@ -52,22 +56,22 @@ function EmployeeForm() {
       <h2 className="form-header">Employee Form</h2>
       <form className="form" onSubmit={handleSubmit}>
         <label className="form-label">
-          TC Id:
+          TC_ID:
           <input
             type="text"
-            name="TcId"
-            value={formData.TcId}
+            name="TCID"
+            value={formData.TCID}
             onChange={handleChange}
             className="form-input"
           />
         </label>
         <br />
         <label className="form-label">
-          TC desc:
+          TC_DESC:
           <input
             type="text"
-            name="TcDesc"
-            value={formData.TcDesc}
+            name="TCDESC"
+            value={formData.TCDESC}
             onChange={handleChange}
             className="form-input"
           />

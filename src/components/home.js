@@ -27,11 +27,11 @@ function Home() {
                 </tr>
                 <tr>
                     <td>Emp_master</td>
-                    <td><button className="button">Enter data</button></td>
+                    <td><Link to='/Emp_master'><button className="button">Enter data</button></Link></td>
                 </tr>
                 <tr>
                     <td>STUDENT_MASTER</td>
-                    <td><button className="button">Enter data</button></td>
+                    <td><Link to='/STUDENT_MASTER'><button className="button">Enter data</button></Link></td>
                 </tr>
                 {/* Add more rows as needed */}
             </tbody>

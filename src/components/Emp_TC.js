@@ -3,12 +3,12 @@ import './form.css';
 
 function EmployeeForm() {
   const [formData, setFormData] = useState({
-    empName: '',
-    empid: '',
-    AnnualPaidLeave: '',
-    Time_IN: '',
-    Time_Out: '',
-    Allowed_Late: ''
+    EMPNAME: '',
+    EMPID: '',
+    ANNUALPAIDLEAVE: '',
+    TIME_IN: '',
+    TIME_OUT: '',
+    ALLOWED_LATE: ''
   });
 
   const handleChange = (e) => {
@@ -43,7 +43,11 @@ function EmployeeForm() {
     })
     .then(data => {
       console.log('Success:', data);
-      // Optionally, you can perform any additional actions here
+      if (data.success) {
+        alert('Data entered successfully');
+      } else {
+        alert('Failed to enter data');
+      }
     })
     .catch(error => {
       console.error('Error:', error);
@@ -57,44 +61,44 @@ function EmployeeForm() {
       <h2 className="form-header">Employee Form</h2>
       <form className="form" onSubmit={handleSubmit}>
         <label className="form-label">
-          Employee Name:
+          empName:
           <input
             type="text"
-            name="empName"
-            value={formData.empName}
+            name="EMPNAME"
+            value={formData.EMPNAME}
             onChange={handleChange}
             className="form-input"
           />
         </label>
         <br />
         <label className="form-label">
-          Employee ID:
+          empid:
           <input
             type="text"
-            name="empid"
-            value={formData.empid}
+            name="EMPID"
+            value={formData.EMPID}
             onChange={handleChange}
             className="form-input"
           />
         </label>
         <br />
         <label className="form-label">
-          Annual Paid Leave:
+          AnnualPaidLeave:
           <input
             type="number"
-            name="AnnualPaidLeave"
-            value={formData.AnnualPaidLeave}
+            name="ANNUALPAIDLEAVE"
+            value={formData.ANNUALPAIDLEAVE}
             onChange={handleChange}
             className="form-input"
           />
         </label>
         <br />
         <label className="form-label">
-          Time In:
+          Time_IN:
           <input
             type="text"
-            name="Time_IN"
-            value={formData.Time_IN}
+            name="TIME_IN"
+            value={formData.TIME_IN}
             onChange={handleChange}
             className="form-input"
             placeholder="HH:MM:SS"
@@ -102,11 +106,11 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          Time Out:
+          Time_Out:
           <input
             type="text"
-            name="Time_Out"
-            value={formData.Time_Out}
+            name="TIME_OUT"
+            value={formData.TIME_OUT}
             onChange={handleChange}
             className="form-input"
             placeholder="HH:MM:SS"
@@ -114,11 +118,11 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          Allowed Late:
+          Allowed_Late:
           <input
             type="number"
-            name="Allowed_Late"
-            value={formData.Allowed_Late}
+            name="ALLOWED_LATE"
+            value={formData.ALLOWED_LATE}
             onChange={handleChange}
             className="form-input"
           />
