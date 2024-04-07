@@ -22,10 +22,9 @@ function EmployeeForm() {
     F_NAME: '',
     M_NAME: '',
     EDUCATIONAL_QUALIFICATION:''
-
-
-
   });
+
+  const [file, setFile] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,49 +34,107 @@ function EmployeeForm() {
     });
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setFile(file);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    // Convert form data to JSON
-    const jsonData = JSON.stringify(formData);
 
-    console.log(formData);
-  
-    // Send JSON data to backend
-    fetch('http://49.206.252.212:5000/Emp_master', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: jsonData
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log('Success:', data);
-      if (data.success) {
-        alert('Data entered successfully');
-      } else {
-        alert('Failed to enter data');
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      // Optionally, you can handle errors here
-    });
+    // Convert form data to JSON
+    const jsonData = { ...formData }; // Copy existing form data
+    const reader = new FileReader();
+
+    if (file) {
+      // If an image file is selected
+      reader.readAsDataURL(file); // Read the file as base64
+
+      reader.onload = () => {
+        // When file reading is complete
+        const base64URL = reader.result; // Get the base64 URL
+        jsonData.imageBase64 = base64URL; // Add base64 URL to the form data
+        console.log(jsonData);
+
+        // Send JSON data to backend
+        fetch("http://49.206.252.212:5000/STUDENT_MASTER", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(jsonData),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            console.log("Success:", data);
+            if (data.success) {
+              alert("Data entered successfully");
+            } else {
+              alert("Failed to enter data");
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            // Optionally, you can handle errors here
+          });
+      };
+
+      reader.onerror = (error) => {
+        console.error("FileReader error:", error);
+      };
+    } else {
+      // If no image file is selected, send only the form data
+      fetch("http://49.206.252.212:5000/STUDENT_MASTER", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(jsonData),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log("Success:", data);
+          if (data.success) {
+            alert("Data entered successfully");
+          } else {
+            alert("Failed to enter data");
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          // Optionally, you can handle errors here
+        });
+    }
   };
-  
 
   return (
     <div className="form-container">
       <h2 className="form-header">Employee master</h2>
       <form className="form" onSubmit={handleSubmit}>
+        <h2>Employee details</h2>
+        <br></br>
         <label className="form-label">
-          EMPNAME:
+          Photo* :
+          <input
+            type="file"
+            name="image"
+            onChange={handleFileChange}
+            className="form-input"
+          />
+        </label>
+        <br />
+        <label className="form-label">
+          Name of employee* :
           <input
             type="text"
             name="EMPNAME"
@@ -88,18 +145,7 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          EMPID:
-          <input
-            type="text"
-            name="EMPID"
-            value={formData.EMPID}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </label>
-        <br />
-        <label className="form-label">
-          DOJ:
+          Date of joining* :
           <input
             type="date"
             name="DOJ"
@@ -110,7 +156,7 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          NAME:
+          Name of the child* :
           <input
             type="text"
             name="NAME"
@@ -121,7 +167,7 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          BDATE:
+          Date of birth* :
           <input
             type="date"
             name="BDATE"
@@ -132,18 +178,21 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          SEX:
-          <input
-            type="text"
-            name="SEX"
-            value={formData.SEX}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </label>
+            Gender* :
+            <select
+              name="SEX"
+              value={formData.SEX}
+              onChange={handleChange}
+              className="form-input"
+            >
+              <option value="">Select Gender</option>
+              <option value="M">Male</option>
+              <option value="F">Female</option>
+            </select>
+          </label>
         <br />
         <label className="form-label">
-          MTONGUE:
+          Mother tongue* :
           <input
             type="text"
             name="MTONGUE"
@@ -154,7 +203,7 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          RELEGION:
+          Relegion :
           <input
             type="text"
             name="RELEGION"
@@ -165,7 +214,7 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          CAST:
+          Cast :
           <input
             type="text"
             name="CAST"
@@ -176,7 +225,7 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          P_ADDRESS:
+          Primary address* :
           <input
             type="text"
             name="P_ADDRESS"
@@ -187,7 +236,7 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          P_PHONE:
+          Primary phone* :
           <input
             type="text"
             name="P_PHONE"
@@ -198,7 +247,7 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          P_CODE:
+          Primary country code* :
           <input
             type="TEXT"
             name="P_CODE"
@@ -209,7 +258,7 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          DISTANCE:
+          Distance :
           <input
             type="TEXT"
             name="DISTANCE"
@@ -220,7 +269,7 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          S_PHONE:
+          Secondary phone* :
           <input
             type="text"
             name="S_PHONE"
@@ -231,7 +280,7 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          S_CODE:
+          Secondary code* :
           <input
             type="text"
             name="S_CODE"
@@ -242,7 +291,7 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          MAIL:
+          Email* :
           <input
             type="email"
             name="MAIL"
@@ -253,7 +302,7 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          F_NAME:
+          Father's name* :
           <input
             type="text"
             name="F_NAME"
@@ -264,7 +313,7 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          M_NAME:
+          Mother's name* :
           <input
             type="text"
             name="M_NAME"
@@ -275,11 +324,24 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          EDUCATIONAL_QUALIFICATION:
+          Highest educational qualification :
           <input
             type="text"
             name="EDUCATIONAL_QUALIFICATION"
             value={formData.EDUCATIONAL_QUALIFICATION}
+            onChange={handleChange}
+            className="form-input"
+          />
+        </label>
+        <br />
+        <h2>For testing</h2>
+        <br></br>
+        <label className="form-label">
+          EMPID : (To be generated automatically) 
+          <input
+            type="text"
+            name="EMPID"
+            value={formData.EMPID}
             onChange={handleChange}
             className="form-input"
           />

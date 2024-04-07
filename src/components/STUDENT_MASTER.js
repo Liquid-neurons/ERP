@@ -45,21 +45,21 @@ function EmployeeForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
+
     // Convert form data to JSON
     const jsonData = { ...formData }; // Copy existing form data
     const reader = new FileReader();
-  
+
     if (file) {
       // If an image file is selected
       reader.readAsDataURL(file); // Read the file as base64
-  
+
       reader.onload = () => {
         // When file reading is complete
         const base64URL = reader.result; // Get the base64 URL
         jsonData.imageBase64 = base64URL; // Add base64 URL to the form data
         console.log(jsonData);
-  
+
         // Send JSON data to backend
         fetch("http://49.206.252.212:5000/STUDENT_MASTER", {
           method: "POST",
@@ -87,7 +87,7 @@ function EmployeeForm() {
             // Optionally, you can handle errors here
           });
       };
-  
+
       reader.onerror = (error) => {
         console.error("FileReader error:", error);
       };
@@ -120,14 +120,25 @@ function EmployeeForm() {
         });
     }
   };
-  
 
   return (
     <div className="form-container">
       <h2 className="form-header">Employee master</h2>
       <form className="form" onSubmit={handleSubmit}>
+        <h2>Student details</h2>
+        <br></br>
         <label className="form-label">
-          NAME:
+          Photo* :
+          <input
+            type="file"
+            name="image"
+            onChange={handleFileChange}
+            className="form-input"
+          />
+        </label>
+        <br />
+        <label className="form-label">
+          Name* :
           <input
             type="text"
             name="NAME"
@@ -138,7 +149,7 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          BDATE:
+          Date of birth* :
           <input
             type="date"
             name="BDATE"
@@ -148,19 +159,22 @@ function EmployeeForm() {
           />
         </label>
         <br />
-        <label className="form-label">
-          SEX:
-          <input
-            type="text"
-            name="SEX"
-            value={formData.SEX}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </label>
+          <label className="form-label">
+            Gender* :
+            <select
+              name="SEX"
+              value={formData.SEX}
+              onChange={handleChange}
+              className="form-input"
+            >
+              <option value="">Select Gender</option>
+              <option value="M">Male</option>
+              <option value="F">Female</option>
+            </select>
+          </label>
         <br />
         <label className="form-label">
-          Mtongue:
+          Mother tongue* :
           <input
             type="text"
             name="MTONGUE"
@@ -171,7 +185,7 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          Relegion:
+          Relegion :
           <input
             type="text"
             name="RELEGION"
@@ -182,7 +196,7 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          cast:
+          Cast :
           <input
             type="text"
             name="CAST"
@@ -193,7 +207,7 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          P_ADDRESS:
+          Primary address* :
           <input
             type="text"
             name="P_ADDRESS"
@@ -204,7 +218,7 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          P_PHONE:
+          Primary Phone* :
           <input
             type="text"
             name="P_PHONE"
@@ -215,7 +229,7 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          P_CODE:
+          Primary country code* :
           <input
             type="text"
             name="P_CODE"
@@ -226,7 +240,7 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          DISTANCE:
+          Distance :
           <input
             type="text"
             name="DISTANCE"
@@ -237,7 +251,7 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          S_PHONE:
+          Secondary phone :
           <input
             type="text"
             name="S_PHONE"
@@ -248,7 +262,7 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          S_CODE:
+          Secondary country code :
           <input
             type="text"
             name="S_CODE"
@@ -259,7 +273,7 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          MAIL:
+          Email* :
           <input
             type="email"
             name="MAIL"
@@ -270,7 +284,33 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          F_NAME:
+            Does the child have any major ailment/allergy?* :
+            <select
+              name="C_AILMENT"
+              value={formData.C_AILMENT}
+              onChange={handleChange}
+              className="form-input"
+            >
+              <option value="N">No</option>
+              <option value="Y">Yes</option>
+            </select>
+          </label>
+        <br />
+        <label className="form-label">
+          Ailment/allergy details :
+          <input
+            type="text"
+            name="C_AILMENT_INFO"
+            value={formData.C_AILMENT_INFO}
+            onChange={handleChange}
+            className="form-input"
+          />
+        </label>
+        <br />
+        <h2>Parent details</h2>
+        <br></br>
+        <label className="form-label">
+          Father's name* :
           <input
             type="text"
             name="F_NAME"
@@ -281,7 +321,7 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          M_NAME:
+          Mother's name* :
           <input
             type="text"
             name="M_NAME"
@@ -292,7 +332,7 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          G_NAME:
+          Guardian's name :
           <input
             type="text"
             name="G_NAME"
@@ -303,7 +343,7 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          EDUCATIONAL_QUALIFICATION:
+          Highest educational qualification of parents :
           <input
             type="text"
             name="EDUCATIONAL_QUALIFICATION"
@@ -314,7 +354,7 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          OCCU:
+          Occupation :
           <input
             type="text"
             name="OCCU"
@@ -325,7 +365,7 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          M_INCOME:
+          Monthly income :
           <input
             type="text"
             name="M_INCOME"
@@ -336,7 +376,7 @@ function EmployeeForm() {
         </label>
         <br />
         <label className="form-label">
-          C_INFO:
+          Any other details to be shared :
           <input
             type="text"
             name="C_INFO"
@@ -346,45 +386,15 @@ function EmployeeForm() {
           />
         </label>
         <br />
+        <h2>For testing</h2>
+        <br></br>
         <label className="form-label">
-          C_AILMENT:
-          <input
-            type="text"
-            name="C_AILMENT"
-            value={formData.C_AILMENT}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </label>
-        <br />
-        <label className="form-label">
-          C_AILMENT_INFO:
-          <input
-            type="text"
-            name="C_AILMENT_INFO"
-            value={formData.C_AILMENT_INFO}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </label>
-        <br />
-        <label className="form-label">
-          APPLICATION_ID:
+          APPLICATION_ID* :  (To be generated automatically)
           <input
             type="text"
             name="APPLICATION_ID"
             value={formData.APPLICATION_ID}
             onChange={handleChange}
-            className="form-input"
-          />
-        </label>
-        <br />
-        <label className="form-label">
-          Photo:
-          <input
-            type="file"
-            name="image"
-            onChange={handleFileChange}
             className="form-input"
           />
         </label>
