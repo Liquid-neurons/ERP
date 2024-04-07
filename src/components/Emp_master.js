@@ -89,7 +89,7 @@ function EmployeeForm() {
       };
     } else {
       // If no image file is selected, send only the form data
-      fetch("http://49.206.252.212:5000/STUDENT_MASTER", {
+      fetch("http://49.206.252.212:5000/Emp_master", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
