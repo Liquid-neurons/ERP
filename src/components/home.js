@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 function Home() {
     return(
         <div className='parent'>
-        <center><h1> DATA ENTRY FORMS </h1></center>
+        <center><h1> Data Entry Forms </h1></center>
        
         <div className='table-container'>
         <table className='table'>
