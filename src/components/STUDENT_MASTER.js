@@ -1,79 +1,124 @@
-import React, { useState } from 'react';
-import './big_form.css';
+import React, { useState } from "react";
+import "./big_form.css";
 
 function EmployeeForm() {
   const [formData, setFormData] = useState({
-    NAME: '',
-    BDATE: '',
-    SEX: '',
-    MTONGUE: '',
-    RELEGION: '',
-    CAST: '',
-    P_ADDRESS: '',
-    P_PHONE: '',
-    P_CODE: '',
-    DISTANCE: '',
-    S_PHONE: '',
-    S_CODE: '',
-    MAIL: '',
-    F_NAME: '',
-    M_NAME: '',
-    G_NAME: '',
-    EDUCATIONAL_QUALIFICATION: '',
-    OCCU: '',
-    M_INCOME:'',
-    C_INFO:'',
-    C_AILMENT:'',
-    C_AILMENT_INFO:'',
-    APPLICATION_ID:''
-
-
-
-
+    NAME: "",
+    BDATE: "",
+    SEX: "",
+    MTONGUE: "",
+    RELEGION: "",
+    CAST: "",
+    P_ADDRESS: "",
+    P_PHONE: "",
+    P_CODE: "",
+    DISTANCE: "",
+    S_PHONE: "",
+    S_CODE: "",
+    MAIL: "",
+    F_NAME: "",
+    M_NAME: "",
+    G_NAME: "",
+    EDUCATIONAL_QUALIFICATION: "",
+    OCCU: "",
+    M_INCOME: "",
+    C_INFO: "",
+    C_AILMENT: "",
+    C_AILMENT_INFO: "",
+    APPLICATION_ID: "",
   });
+
+  const [file, setFile] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setFile(file);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    // Convert form data to JSON
-    const jsonData = JSON.stringify(formData);
-
-    console.log(formData);
   
-    // Send JSON data to backend
-    fetch('http://49.206.252.212:5000/STUDENT_MASTER', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: jsonData
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log('Success:', data);
-      if (data.success) {
-        alert('Data entered successfully');
-      } else {
-        alert('Failed to enter data');
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      // Optionally, you can handle errors here
-    });
+    // Convert form data to JSON
+    const jsonData = { ...formData }; // Copy existing form data
+    const reader = new FileReader();
+  
+    if (file) {
+      // If an image file is selected
+      reader.readAsDataURL(file); // Read the file as base64
+  
+      reader.onload = () => {
+        // When file reading is complete
+        const base64URL = reader.result; // Get the base64 URL
+        jsonData.imageBase64 = base64URL; // Add base64 URL to the form data
+        console.log(jsonData);
+  
+        // Send JSON data to backend
+        fetch("http://49.206.252.212:5000/STUDENT_MASTER", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(jsonData),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            console.log("Success:", data);
+            if (data.success) {
+              alert("Data entered successfully");
+            } else {
+              alert("Failed to enter data");
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            // Optionally, you can handle errors here
+          });
+      };
+  
+      reader.onerror = (error) => {
+        console.error("FileReader error:", error);
+      };
+    } else {
+      // If no image file is selected, send only the form data
+      fetch("http://49.206.252.212:5000/STUDENT_MASTER", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(jsonData),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log("Success:", data);
+          if (data.success) {
+            alert("Data entered successfully");
+          } else {
+            alert("Failed to enter data");
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          // Optionally, you can handle errors here
+        });
+    }
   };
   
 
@@ -334,7 +379,19 @@ function EmployeeForm() {
           />
         </label>
         <br />
-        <button type="submit" className="form-button">Submit</button>
+        <label className="form-label">
+          Photo:
+          <input
+            type="file"
+            name="image"
+            onChange={handleFileChange}
+            className="form-input"
+          />
+        </label>
+        <br />
+        <button type="submit" className="form-button">
+          Submit
+        </button>
       </form>
     </div>
   );
