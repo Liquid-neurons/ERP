@@ -6,7 +6,6 @@ function EmployeeForm() {
     EMPNAME: '',
     EMPID: '',
     DOJ: '',
-    NAME: '',
     BDATE: '',
     SEX: '',
     MTONGUE: '',
@@ -75,7 +74,7 @@ function EmployeeForm() {
             if (data.success) {
               alert("Data entered successfully");
             } else {
-              alert("Failed to enter data");
+              alert(data.message);
             }
           })
           .catch((error) => {
@@ -107,7 +106,7 @@ function EmployeeForm() {
           if (data.success) {
             alert("Data entered successfully");
           } else {
-            alert("Failed to enter data");
+            alert(data.message);
           }
         })
         .catch((error) => {
@@ -150,17 +149,6 @@ function EmployeeForm() {
             type="date"
             name="DOJ"
             value={formData.DOJ}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </label>
-        <br />
-        <label className="form-label">
-          Name of the child* :
-          <input
-            type="text"
-            name="NAME"
-            value={formData.NAME}
             onChange={handleChange}
             className="form-input"
           />
@@ -329,19 +317,6 @@ function EmployeeForm() {
             type="text"
             name="EDUCATIONAL_QUALIFICATION"
             value={formData.EDUCATIONAL_QUALIFICATION}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </label>
-        <br />
-        <h2>For testing</h2>
-        <br></br>
-        <label className="form-label">
-          EMPID : (To be generated automatically) 
-          <input
-            type="text"
-            name="EMPID"
-            value={formData.EMPID}
             onChange={handleChange}
             className="form-input"
           />

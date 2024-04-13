@@ -46,7 +46,7 @@ function EmployeeForm() {
       if (data.success) {
         alert('Data entered successfully');
       } else {
-        alert('Failed to enter data');
+        alert(data.message);
       }
     })
     .catch(error => {

@@ -79,10 +79,11 @@ function EmployeeForm() {
             if (data.success) {
               alert("Data entered successfully");
             } else {
-              alert("Failed to enter data");
+              alert(data.message);
             }
           })
           .catch((error) => {
+            alert(error.message)
             console.error("Error:", error);
             // Optionally, you can handle errors here
           });
@@ -111,10 +112,11 @@ function EmployeeForm() {
           if (data.success) {
             alert("Data entered successfully");
           } else {
-            alert("Failed to enter data");
+            alert(data.message);
           }
         })
         .catch((error) => {
+          alert(error.message)
           console.error("Error:", error);
           // Optionally, you can handle errors here
         });
@@ -386,19 +388,7 @@ function EmployeeForm() {
           />
         </label>
         <br />
-        <h2>For testing</h2>
         <br></br>
-        <label className="form-label">
-          APPLICATION_ID* :  (To be generated automatically)
-          <input
-            type="text"
-            name="APPLICATION_ID"
-            value={formData.APPLICATION_ID}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </label>
-        <br />
         <button type="submit" className="form-button">
           Submit
         </button>
