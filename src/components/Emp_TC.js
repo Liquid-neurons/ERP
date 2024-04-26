@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './form.css';
 
 function EmployeeForm() {
   const [formData, setFormData] = useState({
@@ -57,80 +56,75 @@ function EmployeeForm() {
   
 
   return (
-    <div className="form-container">
-      <h2 className="form-header">Employee Form</h2>
-      <form className="form" onSubmit={handleSubmit}>
-        <label className="form-label">
-          empName:
-          <input
-            type="text"
-            name="EMPNAME"
-            value={formData.EMPNAME}
-            onChange={handleChange}
-            className="form-input"
-          />
+    <div class="form-container max-w-lg mx-auto p-6 bg-white rounded shadow-lg">
+    <h2 class="form-header text-2xl font-semibold mb-4 flex justify-center">Employee TC</h2>
+    <form class="form" onSubmit={handleSubmit}>
+        <label class="form-label">
+            empName:
+            <input
+                type="text"
+                name="EMPNAME"
+                value={formData.EMPNAME}
+                onChange={handleChange}
+                class="form-input border rounded-md px-3 py-2 mt-1 mb-5 w-full"
+            />
         </label>
-        <br />
-        <label className="form-label">
-          empid:
-          <input
-            type="text"
-            name="EMPID"
-            value={formData.EMPID}
-            onChange={handleChange}
-            className="form-input"
-          />
+        <label class="form-label">
+            empid:
+            <input
+                type="text"
+                name="EMPID"
+                value={formData.EMPID}
+                onChange={handleChange}
+                class="form-input border rounded-md px-3 py-2 mt-1 mb-5 w-full"
+            />
         </label>
-        <br />
-        <label className="form-label">
-          AnnualPaidLeave:
-          <input
-            type="number"
-            name="ANNUALPAIDLEAVE"
-            value={formData.ANNUALPAIDLEAVE}
-            onChange={handleChange}
-            className="form-input"
-          />
+        <label class="form-label">
+            AnnualPaidLeave:
+            <input
+                type="number"
+                name="ANNUALPAIDLEAVE"
+                value={formData.ANNUALPAIDLEAVE}
+                onChange={handleChange}
+                class="form-input border rounded-md px-3 py-2 mt-1 mb-5 w-full"
+            />
         </label>
-        <br />
-        <label className="form-label">
-          Time_IN:
-          <input
-            type="text"
-            name="TIME_IN"
-            value={formData.TIME_IN}
-            onChange={handleChange}
-            className="form-input"
-            placeholder="HH:MM:SS"
-          />
+        <label class="form-label">
+            Time_IN:
+            <input
+                type="text"
+                name="TIME_IN"
+                value={formData.TIME_IN}
+                onChange={handleChange}
+                class="form-input border rounded-md px-3 py-2 mt-1 mb-5 w-full"
+                placeholder="HH:MM:SS"
+            />
         </label>
-        <br />
-        <label className="form-label">
-          Time_Out:
-          <input
-            type="text"
-            name="TIME_OUT"
-            value={formData.TIME_OUT}
-            onChange={handleChange}
-            className="form-input"
-            placeholder="HH:MM:SS"
-          />
+        <label class="form-label">
+            Time_Out:
+            <input
+                type="text"
+                name="TIME_OUT"
+                value={formData.TIME_OUT}
+                onChange={handleChange}
+                class="form-input border rounded-md px-3 py-2 mt-1 mb-5 w-full"
+                placeholder="HH:MM:SS"
+            />
         </label>
-        <br />
-        <label className="form-label">
-          Allowed_Late:
-          <input
-            type="number"
-            name="ALLOWED_LATE"
-            value={formData.ALLOWED_LATE}
-            onChange={handleChange}
-            className="form-input"
-          />
+        <label class="form-label">
+            Allowed_Late:
+            <input
+                type="number"
+                name="ALLOWED_LATE"
+                value={formData.ALLOWED_LATE}
+                onChange={handleChange}
+                class="form-input border rounded-md px-3 py-2 mt-1 mb-5 w-full"
+            />
         </label>
-        <br />
-        <button type="submit" className="form-button">Submit</button>
-      </form>
-    </div>
+        <button type="submit" class="form-button bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+    </form>
+</div>
+
   );
 }
 

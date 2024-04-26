@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './big_form.css';
 
 function EmployeeForm() {
   const [formData, setFormData] = useState({
@@ -117,214 +116,93 @@ function EmployeeForm() {
   };
 
   return (
-    <div className="form-container">
-      <h2 className="form-header">Employee master</h2>
-      <form className="form" onSubmit={handleSubmit}>
-        <h2>Employee details</h2>
-        <br></br>
-        <label className="form-label">
-          Photo* :
-          <input
-            type="file"
-            name="image"
-            onChange={handleFileChange}
-            className="form-input"
-          />
-        </label>
-        <br />
-        <label className="form-label">
-          Name of employee* :
-          <input
-            type="text"
-            name="EMPNAME"
-            value={formData.EMPNAME}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </label>
-        <br />
-        <label className="form-label">
-          Date of joining* :
-          <input
-            type="date"
-            name="DOJ"
-            value={formData.DOJ}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </label>
-        <br />
-        <label className="form-label">
-          Date of birth* :
-          <input
-            type="date"
-            name="BDATE"
-            value={formData.BDATE}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </label>
-        <br />
-        <label className="form-label">
-            Gender* :
-            <select
-              name="SEX"
-              value={formData.SEX}
-              onChange={handleChange}
-              className="form-input"
-            >
-              <option value="">Select Gender</option>
-              <option value="M">Male</option>
-              <option value="F">Female</option>
-            </select>
-          </label>
-        <br />
-        <label className="form-label">
-          Mother tongue* :
-          <input
-            type="text"
-            name="MTONGUE"
-            value={formData.MTONGUE}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </label>
-        <br />
-        <label className="form-label">
-          Relegion :
-          <input
-            type="text"
-            name="RELEGION"
-            value={formData.RELEGION}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </label>
-        <br />
-        <label className="form-label">
-          Cast :
-          <input
-            type="text"
-            name="CAST"
-            value={formData.CAST}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </label>
-        <br />
-        <label className="form-label">
-          Primary address* :
-          <input
-            type="text"
-            name="P_ADDRESS"
-            value={formData.P_ADDRESS}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </label>
-        <br />
-        <label className="form-label">
-          Primary phone* :
-          <input
-            type="text"
-            name="P_PHONE"
-            value={formData.P_PHONE}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </label>
-        <br />
-        <label className="form-label">
-          Primary country code* :
-          <input
-            type="TEXT"
-            name="P_CODE"
-            value={formData.P_CODE}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </label>
-        <br />
-        <label className="form-label">
-          Distance :
-          <input
-            type="TEXT"
-            name="DISTANCE"
-            value={formData.DISTANCE}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </label>
-        <br />
-        <label className="form-label">
-          Secondary phone* :
-          <input
-            type="text"
-            name="S_PHONE"
-            value={formData.S_PHONE}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </label>
-        <br />
-        <label className="form-label">
-          Secondary code* :
-          <input
-            type="text"
-            name="S_CODE"
-            value={formData.S_CODE}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </label>
-        <br />
-        <label className="form-label">
-          Email* :
-          <input
-            type="email"
-            name="MAIL"
-            value={formData.MAIL}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </label>
-        <br />
-        <label className="form-label">
-          Father's name* :
-          <input
-            type="text"
-            name="F_NAME"
-            value={formData.F_NAME}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </label>
-        <br />
-        <label className="form-label">
-          Mother's name* :
-          <input
-            type="text"
-            name="M_NAME"
-            value={formData.M_NAME}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </label>
-        <br />
-        <label className="form-label">
-          Highest educational qualification :
-          <input
-            type="text"
-            name="EDUCATIONAL_QUALIFICATION"
-            value={formData.EDUCATIONAL_QUALIFICATION}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </label>
-        <br />
-        <button type="submit" className="form-button">Submit</button>
-      </form>
-    </div>
+    <div class="form-container max-w-lg mx-auto p-6 bg-white rounded shadow-lg">
+    <h2 class="form-header text-2xl font-semibold mb-4 flex justify-center">Employee Master</h2>
+    <form class="form grid grid-cols-2 gap-4" onSubmit={handleSubmit}>
+        <div>
+            <h2 class="text-xl font-bold mb-4">Employee Details</h2>
+            <div class="mb-4">
+                <label for="image" class="form-label block font-semibold">Photo* :</label>
+                <input type="file" name="image" id="image" onChange={handleFileChange} class="form-input" />
+            </div>
+            <div class="mb-4">
+                <label for="name" class="form-label block font-semibold">Name of Employee* :</label>
+                <input type="text" name="EMPNAME" id="name" value={formData.EMPNAME} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
+            </div>
+            <div class="mb-4">
+                <label for="dateOfBirth" class="form-label block font-semibold">Date of Birth* :</label>
+                <input type="date" name="BDATE" id="dateOfBirth" value={formData.BDATE} onChange={handleChange} class="form-input border rounded-md px-3 py-2 mt-1 mb-5 w-full" />
+            </div>
+            <div class="mb-4">
+                <label for="gender" class="form-label block font-semibold">Gender* :</label>
+                <select name="SEX" id="gender" value={formData.SEX} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full">
+                    <option value="">Select Gender</option>
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label for="motherTongue" class="form-label block font-semibold">Mother Tongue* :</label>
+                <input type="text" name="MTONGUE" id="motherTongue" value={formData.MTONGUE} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
+            </div>
+            <div class="mb-4">
+                <label for="religion" class="form-label block font-semibold">Religion :</label>
+                <input type="text" name="RELEGION" id="religion" value={formData.RELEGION} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
+            </div>
+            <div class="mb-4">
+                <label for="cast" class="form-label block font-semibold">Cast :</label>
+                <input type="text" name="CAST" id="cast" value={formData.CAST} onChange={handleChange} class="form-input border rounded-md px-3 py-2 mt-1 mb-5 w-full" />
+            </div>
+        </div>
+        <div>
+            <h2 class="text-xl font-bold mb-4">Contact Details</h2>
+            <div class="mb-4">
+                <label for="primaryAddress" class="form-label block font-semibold">Primary Address* :</label>
+                <input type="text" name="P_ADDRESS" id="primaryAddress" value={formData.P_ADDRESS} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
+            </div>
+            <div class="mb-4">
+                <label for="primaryPhone" class="form-label block font-semibold">Primary Phone* :</label>
+                <input type="text" name="P_PHONE" id="primaryPhone" value={formData.P_PHONE} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
+            </div>
+            <div class="mb-4">
+                <label for="primaryCountryCode" class="form-label block font-semibold">Primary Country Code* :</label>
+                <input type="text" name="P_CODE" id="primaryCountryCode" value={formData.P_CODE} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
+            </div>
+            <div class="mb-4">
+                <label for="distance" class="form-label block font-semibold">Distance :</label>
+                <input type="text" name="DISTANCE" id="distance" value={formData.DISTANCE} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
+            </div>
+            <div class="mb-4">
+                <label for="secondaryPhone" class="form-label block font-semibold">Secondary Phone* :</label>
+                <input type="text" name="S_PHONE" id="secondaryPhone" value={formData.S_PHONE} onChange={handleChange} class="form-input border rounded-md px-3 py-2 mt-1 mb-5 w-full" />
+            </div>
+            <div class="mb-4">
+                <label for="secondaryCode" class="form-label block font-semibold">Secondary Code* :</label>
+                <input type="text" name="S_CODE" id="secondaryCode" value={formData.S_CODE} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
+            </div>
+            <div class="mb-4">
+                <label for="email" class="form-label block font-semibold">Email* :</label>
+                <input type="email" name="MAIL" id="email" value={formData.MAIL} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
+            </div>
+            <div class="mb-4">
+                <label for="fatherName" class="form-label block font-semibold">Father's Name* :</label>
+                <input type="text" name="F_NAME" id="fatherName" value={formData.F_NAME} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
+            </div>
+            <div class="mb-4">
+                <label for="motherName" class="form-label block font-semibold">Mother's Name* :</label>
+                <input type="text" name="M_NAME" id="motherName" value={formData.M_NAME} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
+            </div>
+            <div class="mb-4">
+                <label for="education" class="form-label block font-semibold">Highest Educational Qualification :</label>
+                <input type="text" name="EDUCATIONAL_QUALIFICATION" id="education" value={formData.EDUCATIONAL_QUALIFICATION} onChange={handleChange} class="form-input border rounded-md px-3 py-2 mt-1 mb-5 w-full" />
+            </div>
+        </div>
+        <div class="col-span-2 flex justify-center mt-6">
+        <button type="submit" class="form-button bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-12 rounded">Submit</button>
+      </div>
+    </form>
+</div>
+
   );
 }
 

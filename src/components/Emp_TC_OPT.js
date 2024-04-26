@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './form.css';
 
 function EmployeeForm() {
   const [formData, setFormData] = useState({
@@ -52,8 +51,8 @@ function EmployeeForm() {
   };
 
   return (
-    <div className="form-container">
-      <h2 className="form-header">Employee Form</h2>
+    <div className="form-container max-w-lg mx-auto p-6 bg-white rounded shadow-lg">
+      <h2 className="form-header text-2xl font-semibold mb-4 flex justify-center">Employee TC OPT</h2>
       <form className="form" onSubmit={handleSubmit}>
         <label className="form-label">
           TC_ID:
@@ -62,10 +61,9 @@ function EmployeeForm() {
             name="TCID"
             value={formData.TCID}
             onChange={handleChange}
-            className="form-input"
+            className="form-input border rounded-md px-3 py-2 mt-1 mb-5 w-full"
           />
         </label>
-        <br />
         <label className="form-label">
           TC_DESC:
           <input
@@ -73,11 +71,10 @@ function EmployeeForm() {
             name="TCDESC"
             value={formData.TCDESC}
             onChange={handleChange}
-            className="form-input"
+            className="form-input border rounded-md px-3 py-2 mt-1 mb-5 w-full"
           />
         </label>
-        <br />
-        <button type="submit" className="form-button">Submit</button>
+        <button type="submit" className="form-button bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Submit</button>
       </form>
     </div>
   );
