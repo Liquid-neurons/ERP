@@ -26,7 +26,7 @@ function ListApplications() {
 
   return (
     <div className="container mx-auto">
-      <h1 className="text-3xl font-semibold mb-4 flex justify-center">View Applications</h1>
+      <h1 className="text-3xl font-semibold mb-4 flex justify-center">New Applications</h1>
       <table className="table-auto mx-auto">
         <thead>
           <tr>
@@ -41,14 +41,14 @@ function ListApplications() {
                 <td className="border px-4 py-2">{applicationId}</td>
                 <td className="border px-4 py-2">
                 <Link to={`/student-data/${applicationId}`} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    View Application
+                    Review new application
                   </Link>
                 </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td className="border px-4 py-2" colSpan="2">Loading...</td>
+              <td className="border px-4 py-2" colSpan="2">No new applications</td>
             </tr>
           )}
         </tbody>
