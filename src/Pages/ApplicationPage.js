@@ -1,12 +1,12 @@
 import React from 'react';
 import Navbar from '../components/navbar';
-import ListApplications from '../components/ListApplications.js';
+import ListNew from '../components/ListNew.js';
 
 function ApplicationPage(){
     return(
         <>
         <Navbar/>
-        <ListApplications/>
+        <ListNew/>
         </>
     );
 }

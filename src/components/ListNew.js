@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 
-function ListApplications() {
+function ListNew() {
   const [applicationIds, setApplicationIds] = useState([]);
 
   // Fetch application IDs from backend when component mounts
@@ -41,7 +41,7 @@ function ListApplications() {
                 <td className="border px-4 py-2">{applicationId}</td>
                 <td className="border px-4 py-2">
                 <Link to={`/student-data/${applicationId}`} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    Review new application
+                    Review 
                   </Link>
                 </td>
               </tr>
@@ -57,4 +57,4 @@ function ListApplications() {
   );
 }
 
-export default ListApplications;
+export default ListNew;

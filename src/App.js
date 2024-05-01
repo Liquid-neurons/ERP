@@ -7,6 +7,8 @@ import Login from "./components/login";
 import HomePage from "./Pages/HomePage";
 import ApplicationPage from "./Pages/ApplicationPage";
 import StudentData from "./components/studentdata";
+import RegisterPage from "./Pages/RegisterPage"
+import FeeRegister from "./components/FeeRegister";
 import { BrowserRouter as Router, Route, Routes, Form } from 'react-router-dom';
 
 function App() {
@@ -22,7 +24,9 @@ function App() {
       <Route path="STUDENT_MASTER" element={<STUDENT_MASTER/>}/>
       <Route path="homepage" element={<HomePage/>}/>
       <Route path="applications" element={<ApplicationPage/>}/>
+      <Route path="register" element={<RegisterPage/>}/>
       <Route path="/student-data/:applicationId" element={<StudentData/>}/>
+      <Route path="/fee-register/:applicationId" element={<FeeRegister/>}/>
 
       </Routes> 
       </Router>
