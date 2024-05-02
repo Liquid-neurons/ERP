@@ -10,7 +10,7 @@ export const Dashboard = () => {
                 <Link to="/applications">
                     <div className="w-fit rounded-[25px] bg-white p-8 aspect mr-8">
                         <div className="my-2">
-                            <h2 className="text-4xl font-bold"><span>New applications</span></h2>
+                            <h2 className="text-4xl font-bold"><span>Review new applications</span></h2>
                         </div>
                     </div>
                 </Link>
