@@ -23,6 +23,13 @@ const [formData, setFormData] = useState({
     LATEFEEAPPLICABLE: '',
     CUTOFFDAY: '',
     CHATID: '',
+    R_FEE:'',
+    REMARK:'',
+    S_FEE:'',
+    B_FEE:'',
+    U_FEE:'',
+    R_DATE:'',
+    A_DATE:'',
   });
 
 
@@ -116,6 +123,34 @@ const [formData, setFormData] = useState({
             <div class="mb-4">
                 <label for="chatid" class="form-label block font-semibold">Chat ID :</label>
                 <input type="text" name="CHATID" id="chatid" value={formData.CHATID} onChange={handleChange} class="form-input border rounded-md px-3 py-2 mt-1 mb-5 w-full" />
+            </div>
+            <div class="mb-4">
+                <label for="R_FEE" class="form-label block font-semibold">R_FEE* :</label>
+                <input type="text" name="R_FEE" id="R_FEE" value={formData.R_FEE} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
+            </div>
+            <div class="mb-4">
+                <label for="remark" class="form-label block font-semibold">Remark* :</label>
+                <input type="text" name="REMARK" id="session" value={formData.REMARK} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
+            </div>
+            <div class="mb-4">
+                <label for="S_FEE" class="form-label block font-semibold">S_FEE* :</label>
+                <input type="text" name="S_FEE" id="S_FEE" value={formData.S_FEE} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
+            </div>
+            <div class="mb-4">
+                <label for="U_FEE" class="form-label block font-semibold">U_FEE* :</label>
+                <input type="text" name="U_FEE" id="U_FEE" value={formData.U_FEE} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
+            </div>
+            <div class="mb-4">
+                <label for="B_FEE" class="form-label block font-semibold">B_FEE* :</label>
+                <input type="text" name="B_FEE" id="B_FEE" value={formData.B_FEE} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
+            </div>
+            <div class="mb-4">
+                <label for="R_DATE" class="form-label block font-semibold">R_DATE* :</label>
+                <input type="date" name="R_DATE" id="R_DATE" value={formData.R_DATE} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
+            </div>
+            <div class="mb-4">
+                <label for="A_DATE" class="form-label block font-semibold">A_DATE* :</label>
+                <input type="date" name="A_DATE" id="A_DATE" value={formData.A_DATE} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
             </div>
         </div>
         <div>

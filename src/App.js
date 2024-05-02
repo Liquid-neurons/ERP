@@ -8,7 +8,10 @@ import HomePage from "./Pages/HomePage";
 import ApplicationPage from "./Pages/ApplicationPage";
 import StudentData from "./components/studentdata";
 import RegisterPage from "./Pages/RegisterPage"
-import FeeRegister from "./components/FeeRegister";
+import FeeRegisterationPage from "./Pages/FeeRegistrationPage";
+import SiblingRegisterationPage from "./Pages/SiblingRegistrationPage";
+import ViewApplication from "./components/viewapplication";
+import StudentRegisterationPage from "./Pages/StudentRegisterPage";
 import { BrowserRouter as Router, Route, Routes, Form } from 'react-router-dom';
 
 function App() {
@@ -26,7 +29,10 @@ function App() {
       <Route path="applications" element={<ApplicationPage/>}/>
       <Route path="register" element={<RegisterPage/>}/>
       <Route path="/student-data/:applicationId" element={<StudentData/>}/>
-      <Route path="/fee-register/:applicationId" element={<FeeRegister/>}/>
+      <Route path="/view-application/:applicationId" element={<ViewApplication/>}/>
+      <Route path="/fee-register/:applicationId" element={<FeeRegisterationPage/>}/>
+      <Route path="/sibling-register/:applicationId" element={<SiblingRegisterationPage/>}/>
+      <Route path="/student-register/:applicationId" element={<StudentRegisterationPage/>}/>
 
       </Routes> 
       </Router>

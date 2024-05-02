@@ -40,7 +40,7 @@ function ListNew() {
               <tr key={applicationId}>
                 <td className="border px-4 py-2">{applicationId}</td>
                 <td className="border px-4 py-2">
-                <Link to={`/student-data/${applicationId}`} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                <Link to={`/student-data/${applicationId}`} className=" bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
                     Review 
                   </Link>
                 </td>
