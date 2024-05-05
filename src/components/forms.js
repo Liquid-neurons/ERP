@@ -32,7 +32,7 @@ function Forms() {
                             </tr>
                             <tr>
                                 <td className="px-6 py-4 whitespace-no-wrap">
-                                    <Link to="/STUDENT_MASTER" className="text-3xl flex justify-center text-indigo-600 hover:underline">Student master</Link>
+                                    <Link to="/STUDENT_MASTER" className="text-3xl flex justify-center text-indigo-600 hover:underline">Student Application Form</Link>
                                 </td>
                             </tr>
                             {/* Add more rows as needed */}
