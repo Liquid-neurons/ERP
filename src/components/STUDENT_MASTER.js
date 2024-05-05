@@ -1,35 +1,60 @@
-import React, { useState } from "react";
-import Navbar from "./navbar";
+import React, { useState, useEffect } from "react";
+import { PDFDocumentProxy } from 'pdfjs-dist';
 
-function EmployeeForm() {
-  
+function StudentForm() {
+  const [data, setData] = useState({});
+
+  useEffect(() => {
+    // Define a function to fetch data from your backend API
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "http://49.206.252.212:5000/student-master-desc"
+        ); // Assuming your backend server is running on the same host
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+        const jsonData = await response.json();
+        setData(jsonData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        // Handle error
+      }
+    };
+
+    // Call the fetchData function when the component mounts
+    fetchData();
+
+    // Clean up function (optional)
+    return () => {
+      // Perform any necessary cleanup here
+    };
+  }, []); // Empty dependency array means this effect runs only once after initial render
+
   const [formData, setFormData] = useState({
-    NAME: "",
-    BDATE: "",
-    SEX: "",
-    MTONGUE: "",
-    RELEGION: "",
-    CAST: "",
-    P_ADDRESS: "",
-    P_PHONE: "",
-    P_CODE: "",
-    DISTANCE: "",
-    S_PHONE: "",
-    S_CODE: "",
-    MAIL: "",
-    F_NAME: "",
-    M_NAME: "",
-    G_NAME: "",
-    EDUCATIONAL_QUALIFICATION: "",
-    OCCU: "",
-    M_INCOME: "",
-    C_INFO: "",
-    C_AILMENT: "",
-    C_AILMENT_INFO: "",
-    APPLICATION_ID: "",
+    name: "",
+    bdate: "",
+    sex: "",
+    mtongue: "",
+    religion: "",
+    caste: "",
+    p_address: "",
+    p_phone: "",
+    distance: "",
+    s_phone: "",
+    mail: "",
+    f_name: "",
+    f_quali: "",
+    f_occ: "",
+    m_name: "",
+    m_quali: "",
+    m_occ: "",
+    g_name:"",
+    m_income: "",
+    c_info: "",
+    c_ailment: "",
+    c_ailment_info: "",
   });
-
-  const [file, setFile] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,212 +64,501 @@ function EmployeeForm() {
     });
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setFile(file);
-  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  
+  const [file1, setFile1] = useState(null);
+  const [file2, setFile2] = useState(null);
+  const [file3, setFile3] = useState(null);
+  const [file4, setFile4] = useState(null);
+  const [file5, setFile5] = useState(null);
 
-    // Convert form data to JSON
-    const jsonData = { ...formData }; // Copy existing form data
-    const reader = new FileReader();
 
-    if (file) {
-      // If an image file is selected
-      reader.readAsDataURL(file); // Read the file as base64
 
-      reader.onload = () => {
-        // When file reading is complete
-        const base64URL = reader.result; // Get the base64 URL
-        jsonData.imageBase64 = base64URL; // Add base64 URL to the form data
-        console.log(jsonData);
+const handleFileChange1 = (e) => {
+  const file = e.target.files[0];
+  setFile1(file);
+};
 
-        // Send JSON data to backend
-        fetch("http://49.206.252.212:5000/STUDENT_MASTER", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(jsonData),
-        })
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error("Network response was not ok");
-            }
-            return response.json();
-          })
-          .then((data) => {
-            console.log("Success:", data);
-            if (data.success) {
-              alert("Data entered successfully");
-            } else {
-              alert(data.message);
-            }
-          })
-          .catch((error) => {
-            alert(error.message)
-            console.error("Error:", error);
-            // Optionally, you can handle errors here
-          });
-      };
+const handleFileChange2 = (e) => {
+  const file = e.target.files[0];
+  setFile2(file);
+};
 
-      reader.onerror = (error) => {
-        console.error("FileReader error:", error);
-      };
-    } else {
-      // If no image file is selected, send only the form data
-      fetch("http://49.206.252.212:5000/STUDENT_MASTER", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(jsonData),
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          console.log("Success:", data);
-          if (data.success) {
-            alert("Data entered successfully");
-          } else {
-            alert(data.message);
-          }
-        })
-        .catch((error) => {
-          alert(error.message)
-          console.error("Error:", error);
-          // Optionally, you can handle errors here
-        });
+const handleFileChange3 = (e) => {
+  const file = e.target.files[0];
+  setFile3(file);
+};
+
+const handleFileChange4 = (e) => {
+  const file = e.target.files[0];
+  setFile4(file);
+};
+
+const handleFileChange5 = (e) => {
+  const file = e.target.files[0];
+  setFile5(file);
+};
+
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    // Create an object to hold the form data
+    const formDataToSend = {
+      ...formData, // Include regular form data properties
+      files: {
+        file1: await fileToBase64(file1),
+        file2: await fileToBase64(file2),
+        file3: await fileToBase64(file3),
+        file4: await fileToBase64(file4),
+        file5: await fileToBase64(file5)
+      }
+    };
+
+    console.log(formDataToSend);
+    // Send the form data and files separately
+    const formDataResponse = await fetch("http://49.206.252.212:5000/STUDENT_MASTER", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(formDataToSend)
+    });
+
+    if (!formDataResponse.ok) {
+      throw new Error("Network response for form data was not ok");
     }
-  };
+
+    const formDataData = await formDataResponse.json();
+    console.log("Success:", formDataData);
+    if (formDataData.success) {
+      alert("Data entered successfully");
+    } else {
+      alert("Data entry failed");
+    }
+  } catch (error) {
+    alert(error.message);
+    console.error("Error:", error);
+  }
+};
+
+const fileToBase64 = (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
+};
 
   return (
-    <div class="form-container max-w-lg mx-auto p-6 bg-white rounded shadow-lg">
-    <h2 class="form-header text-2xl font-semibold mb-4 flex justify-center">Employee Master</h2>
-    <form class="form grid grid-cols-2 gap-4" onSubmit={handleSubmit}>
-      <div>
-        <h2 class="text-xl font-bold mb-4">Student Details</h2>
-        <div class="mb-4">
-          <label for="image" class="form-label block font-semibold">Photo* :</label>
-          <input type="file" name="image" id="image" onChange={handleFileChange} class="form-input" />
+    <div className="container mx-auto p-4">
+      <h1 className="text-3xl font-semibold mb-4 flex justify-center">
+        Student Application Form
+      </h1>
+      <form className="grid grid-cols-3 gap-2" onSubmit={handleSubmit}>
+        <div>
+          <div className="border p-4 rounded-lg shadow-md">
+            <h2 className="text-xl font-bold mb-4">Student Details</h2>
+            <div className="mb-2">
+              <label htmlFor="image" className="form-label block font-semibold">
+                {data.IMAGE}* :
+              </label>
+              <input
+                type="file"
+                name="image"
+                id="image"
+                onChange={handleFileChange1}
+                className="form-input"
+              />
+            </div>
+            <div class="mb-2">
+              <label for="name" class="form-label block font-semibold">
+                {data.NAME}* :
+              </label>
+              <input
+                type="text"
+                name="name"
+                id="name"
+                value={formData.name}
+                onChange={handleChange}
+                class="form-input border  rounded-md px-1 py-1 mt-1 mb-1 "
+              />
+            </div>
+            <div class="mb-2">
+              <label for="dateOfBirth" class="form-label block font-semibold">
+                {data.BDATE}* :
+              </label>
+              <input
+                type="date"
+                name="bdate"
+                id="bdate"
+                value={formData.bdate}
+                onChange={handleChange}
+                class="form-input px-3 py-1 mt-1 mb-1"
+              />
+            </div>
+            <div class="mb-2">
+              <label for="gender" class="form-label block font-semibold">
+                {data["SEX "]}* :
+              </label>
+              <select
+                name="sex"
+                id="sex"
+                value={formData.sex}
+                onChange={handleChange}
+                class="form-input border  rounded-md px-3 py-1 mt-1 mb-1"
+              >
+                <option value="">Select Gender</option>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+              </select>
+            </div>
+            <div class="mb-2">
+              <label for="motherTongue" class="form-label block font-semibold">
+                {data.Mtongue}* :
+              </label>
+              <input
+                type="text"
+                name="mtongue"
+                id="mtongue"
+                value={formData.mtongue}
+                onChange={handleChange}
+                class="form-input border  rounded-md px-3 py-1 mt-1 mb-1"
+              />
+            </div>
+            <div class="mb-2">
+              <label for="religion" class="form-label block font-semibold">
+                {data.Religion} :
+              </label>
+              <input
+                type="text"
+                name="religion"
+                id="religion"
+                value={formData.religion}
+                onChange={handleChange}
+                class="form-input border  rounded-md px-3 py-1 mt-1 mb-1"
+              />
+            </div>
+            <div class="mb-2">
+              <label for="cast" class="form-label block font-semibold">
+                {data.caste} :
+              </label>
+              <input
+                type="text"
+                name="caste"
+                id="caste"
+                value={formData.caste}
+                onChange={handleChange}
+                class="form-input border  rounded-md px-3 py-1 mt-1 mb-1"
+              />
+            </div>
+            <div class="mb-2">
+              <label
+                for="primaryAddress"
+                class="form-label block font-semibold"
+              >
+                {data.P_ADDRESS}* :
+              </label>
+              <textarea
+                name="p_address"
+                id="p_address"
+                value={formData.p_address}
+                onChange={handleChange}
+                class="form-input border rounded-md px-3 py-1 mt-1 mb-1 h-40 w-3/4"
+              ></textarea>
+            </div>
+            <div class="mb-2">
+              <label for="primaryPhone" class="form-label block font-semibold">
+                {data.P_PHONE}* :
+              </label>
+              <input
+                type="text"
+                name="p_phone"
+                id="p_phone"
+                value={formData.p_phone}
+                onChange={handleChange}
+                class="form-input border  rounded-md px-3 py-1 mt-1 mb-1"
+              />
+            </div>
+            <div class="mb-2">
+              <label for="distance" class="form-label block font-semibold">
+                {data.DISTANCE} :
+              </label>
+              <input
+                type="text"
+                name="distance"
+                id="distance"
+                value={formData.distance}
+                onChange={handleChange}
+                class="form-input border  rounded-md px-3 py-1 mt-1 mb-1 "
+              />
+            </div>
+          </div>
         </div>
-        <div class="mb-4">
-          <label for="name" class="form-label block font-semibold">Name* :</label>
-          <input type="text" name="NAME" id="name" value={formData.NAME} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
+        <div>
+          <div className="border p-4 rounded-lg shadow-md">
+            <h2 className="text-xl font-bold mb-2">Parent Details</h2>
+            <div className="mb-2">
+              <label
+                htmlFor="fatherName"
+                className="form-label block font-semibold"
+              >
+                {data["F_NAME "]}* :
+              </label>
+              <input
+                type="text"
+                name="f_name"
+                id="f_name"
+                value={formData.f_name}
+                onChange={handleChange}
+                className="form-input border rounded-md"
+              />
+            </div>
+            <div class="mb-2">
+              <label
+                for="parentEducation"
+                class="form-label block font-semibold"
+              >
+                {data.F_QUALI} :
+              </label>
+              <input
+                type="text"
+                name="f_quali"
+                id="f_quali"
+                value={formData.f_quali}
+                onChange={handleChange}
+                class="form-input border rounded-md"
+              />
+            </div>
+            <div class="mb-2">
+              <label
+                for="parentEducation"
+                class="form-label block font-semibold"
+              >
+                {data.F_OCC} :
+              </label>
+              <input
+                type="text"
+                name="f_occ"
+                id="f_occ"
+                value={formData.f_occ}
+                onChange={handleChange}
+                class="form-input border rounded-md"
+              />
+            </div>
+            <div class="mb-2">
+              <label for="motherName" class="form-label block font-semibold">
+                {data["M_NAME "]}* :
+              </label>
+              <input
+                type="text"
+                name="m_name"
+                id="m_name"
+                value={formData.m_name}
+                onChange={handleChange}
+                class="form-input border  rounded-md px-3 py-1 mt-1 mb-1"
+              />
+            </div>
+            <div class="mb-2">
+              <label for="motherName" class="form-label block font-semibold">
+                {data.M_QUALI}* :
+              </label>
+              <input
+                type="text"
+                name="m_quali"
+                id="m_quali"
+                value={formData.m_quali}
+                onChange={handleChange}
+                class="form-input border  rounded-md px-3 py-1 mt-1 mb-1"
+              />
+            </div>
+            <div class="mb-2">
+              <label for="motherName" class="form-label block font-semibold">
+                {data.M_OCC}* :
+              </label>
+              <input
+                type="text"
+                name="m_occ"
+                id="m_occ"
+                value={formData.m_occ}
+                onChange={handleChange}
+                class="form-input border  rounded-md px-3 py-1 mt-1 mb-1"
+              />
+            </div>
+            <div class="mb-2">
+              <label for="guardianName" class="form-label block font-semibold">
+                {data["G_NAME "]} :
+              </label>
+              <input
+                type="text"
+                name="g_name"
+                id="g_name"
+                value={formData.g_name}
+                onChange={handleChange}
+                class="form-input border  rounded-md px-3 py-1 mt-1 mb-1"
+              />
+            </div>
+            <div class="mb-2">
+              <label for="monthlyIncome" class="form-label block font-semibold">
+                {data.M_INCOME} :
+              </label>
+              <input
+                type="text"
+                name="m_income"
+                id="m_income"
+                value={formData.m_income}
+                onChange={handleChange}
+                class="form-input border rounded-md px-3 py-1 mt-1 mb-1"
+              />
+            </div>
+          </div>
+          <br></br>
+          <br></br>
+          <div className="col-span-3 flex justify-center mt-14">
+            <button
+              type="submit"
+              className="form-button bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-5 px-12 rounded flex"
+            >
+              Submit
+            </button>
+          </div>
         </div>
-        <div class="mb-4">
-          <label for="dateOfBirth" class="form-label block font-semibold">Date of Birth* :</label>
-          <input type="date" name="BDATE" id="dateOfBirth" value={formData.BDATE} onChange={handleChange} class="form-input px-3 py-2 mt-1 mb-5 w-full" />
+        <div>
+          <div className="border p-4 rounded-lg shadow-md">
+            <h2 className="text-xl font-bold mb-2">Additional Details</h2>
+            <div className="mb-2">
+              <label
+                htmlFor="secondaryPhone"
+                className="form-label block font-semibold"
+              >
+                {data.S_PHONE}:
+              </label>
+              <input
+                type="text"
+                name="s_phone"
+                id="s_phone"
+                value={formData.s_phone}
+                onChange={handleChange}
+                className="form-input border rounded-md"
+              />
+            </div>
+            <div class="mb-2">
+              <label for="email" class="form-label block font-semibold">
+                {data.MAIL}* :
+              </label>
+              <input
+                type="email"
+                name="mail"
+                id="mail"
+                value={formData.mail}
+                onChange={handleChange}
+                class="form-input border  rounded-md px-3 py-1 mt-1 mb-1"
+              />
+            </div>
+            <div class="mb-2">
+              <label for="ailment" class="form-label block font-semibold">
+                {data.C_AILMENT}?* :
+              </label>
+              <select
+                name="c_ailment"
+                id="c_ailment"
+                value={formData.c_ailment}
+                onChange={handleChange}
+                class="form-input border  rounded-md px-3 py-1 mt-1 mb-1"
+              >
+                <option value="N">No</option>
+                <option value="Y">Yes</option>
+              </select>
+            </div>
+            <div class="mb-2">
+              <label
+                for="ailmentDetails"
+                class="form-label block font-semibold"
+              >
+                {data.C_AILMENT_INFO} :
+              </label>
+              <input
+                type="text"
+                name="c_ailment_info"
+                id="c_ailment_info"
+                value={formData.c_ailment_info}
+                onChange={handleChange}
+                class="form-input border  rounded-md px-3 py-1 mt-1 mb-1"
+              />
+            </div>
+            <div class="mb-2">
+              <label
+                for="ailmentDetails"
+                class="form-label block font-semibold"
+              >
+                {data["C_INFO "]} :
+              </label>
+              <textarea
+                name="c_info"
+                id="c_info"
+                value={formData.c_info}
+                onChange={handleChange}
+                class="form-input border rounded-md px-3 py-1 mt-1 mb-1 h-40 w-3/4"
+              ></textarea>
+            </div>
+            <br></br>
+            <br></br>
+            <h2 className="text-xl font-bold mb-2">Certificates and records</h2>
+            <div className="mb-2">
+              <label htmlFor="image" className="form-label block font-semibold">
+                {data.Cert1}* :
+              </label>
+              <input
+                type="file"
+                name="image"
+                id="image"
+                onChange={handleFileChange2}
+                className="form-input"
+              />
+            </div>
+            <div className="mb-2">
+              <label htmlFor="image" className="form-label block font-semibold">
+                {data.Cert2}* :
+              </label>
+              <input
+                type="file"
+                name="image"
+                id="image"
+                onChange={handleFileChange3}
+                className="form-input"
+              />
+            </div>
+            <div className="mb-2">
+              <label htmlFor="image" className="form-label block font-semibold">
+                {data.Cert3}* :
+              </label>
+              <input
+                type="file"
+                name="image"
+                id="image"
+                onChange={handleFileChange4}
+                className="form-input"
+              />
+            </div>
+            <div className="mb-2">
+              <label htmlFor="image" className="form-label block font-semibold">
+                {data.Cert4}* :
+              </label>
+              <input
+                type="file"
+                name="image"
+                id="image"
+                onChange={handleFileChange5}
+                className="form-input"
+              />
+            </div>
+          </div>
         </div>
-        <div class="mb-4">
-          <label for="gender" class="form-label block font-semibold">Gender* :</label>
-          <select name="SEX" id="gender" value={formData.SEX} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full">
-            <option value="">Select Gender</option>
-            <option value="M">Male</option>
-            <option value="F">Female</option>
-          </select>
-        </div>
-        <div class="mb-4">
-          <label for="motherTongue" class="form-label block font-semibold">Mother Tongue* :</label>
-          <input type="text" name="MTONGUE" id="motherTongue" value={formData.MTONGUE} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
-        </div>
-        <div class="mb-4">
-          <label for="religion" class="form-label block font-semibold">Religion :</label>
-          <input type="text" name="RELEGION" id="religion" value={formData.RELEGION} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
-        </div>
-        <div class="mb-4">
-          <label for="cast" class="form-label block font-semibold">Cast :</label>
-          <input type="text" name="CAST" id="cast" value={formData.CAST} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
-        </div>
-        <div class="mb-4">
-          <label for="primaryAddress" class="form-label block font-semibold">Primary Address* :</label>
-          <input type="text" name="P_ADDRESS" id="primaryAddress" value={formData.P_ADDRESS} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
-        </div>
-        <div class="mb-4">
-          <label for="primaryPhone" class="form-label block font-semibold">Primary Phone* :</label>
-          <input type="text" name="P_PHONE" id="primaryPhone" value={formData.P_PHONE} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
-        </div>
-        <div class="mb-4">
-          <label for="primaryCountryCode" class="form-label block font-semibold">Primary Country Code* :</label>
-          <input type="text" name="P_CODE" id="primaryCountryCode" value={formData.P_CODE} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
-        </div>
-        <div class="mb-4">
-          <label for="distance" class="form-label block font-semibold">Distance :</label>
-          <input type="text" name="DISTANCE" id="distance" value={formData.DISTANCE} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
-        </div>
-      </div>
-      <div>
-        <h2 class="text-xl font-bold mb-4">Additional Details</h2>
-        <div class="mb-4">
-          <label for="secondaryPhone" class="form-label block font-semibold">Secondary Phone :</label>
-          <input type="text" name="S_PHONE" id="secondaryPhone" value={formData.S_PHONE} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
-        </div>
-        <div class="mb-4">
-          <label for="secondaryCountryCode" class="form-label block font-semibold">Secondary Country Code :</label>
-          <input type="text" name="S_CODE" id="secondaryCountryCode" value={formData.S_CODE} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
-        </div>
-        <div class="mb-4">
-          <label for="email" class="form-label block font-semibold">Email* :</label>
-          <input type="email" name="MAIL" id="email" value={formData.MAIL} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
-        </div>
-        <div class="mb-4">
-          <label for="ailment" class="form-label block font-semibold">Does the child have any major ailment/allergy?* :</label>
-          <select name="C_AILMENT" id="ailment" value={formData.C_AILMENT} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full">
-            <option value="N">No</option>
-            <option value="Y">Yes</option>
-          </select>
-        </div>
-        <div class="mb-4">
-          <label for="ailmentDetails" class="form-label block font-semibold">Ailment/Allergy Details :</label>
-          <input type="text" name="C_AILMENT_INFO" id="ailmentDetails" value={formData.C_AILMENT_INFO} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
-        </div>
-      </div>
-      <div>
-        <h2 class="text-xl font-bold mb-4">Parent Details</h2>
-        <div class="mb-4">
-          <label for="fatherName" class="form-label block font-semibold">Father's Name* :</label>
-          <input type="text" name="F_NAME" id="fatherName" value={formData.F_NAME} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
-        </div>
-        <div class="mb-4">
-          <label for="motherName" class="form-label block font-semibold">Mother's Name* :</label>
-          <input type="text" name="M_NAME" id="motherName" value={formData.M_NAME} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
-        </div>
-        <div class="mb-4">
-          <label for="guardianName" class="form-label block font-semibold">Guardian's Name :</label>
-          <input type="text" name="G_NAME" id="guardianName" value={formData.G_NAME} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
-        </div>
-        <div class="mb-4">
-          <label for="parentEducation" class="form-label block font-semibold">Highest Educational Qualification of Parents :</label>
-          <input type="text" name="EDUCATIONAL_QUALIFICATION" id="parentEducation" value={formData.EDUCATIONAL_QUALIFICATION} onChange={handleChange} class="form-input border rounded-md" />
-        </div>
-        <div class="mb-4">
-          <label for="occupation" class="form-label block font-semibold">Occupation :</label>
-          <input type="text" name="OCCU" id="occupation" value={formData.OCCU} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
-        </div>
-        <div class="mb-4">
-          <label for="monthlyIncome" class="form-label block font-semibold">Monthly Income :</label>
-          <input type="text" name="M_INCOME" id="monthlyIncome" value={formData.M_INCOME} onChange={handleChange} class="form-input border  rounded-md px-3 py-2 mt-1 mb-5 w-full" />
-        </div>
-        <div class="mb-4">
-          <label for="otherDetails" class="form-label block font-semibold">Any Other Details to be Shared :</label>
-          <input type="text" name="C_INFO" id="otherDetails" value={formData.C_INFO} onChange={handleChange} class="form-input border rounded-md px-3 py-2 mt-1 mb-5 w-full" />
-        </div>
-      </div>
-      <div class="col-span-2 flex justify-center mt-6">
-        <button type="submit" class="form-button bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-12 rounded px-3 py-2 mt-1 mb-5 w-full">Submit</button>
-      </div>
-    </form>
-  </div>
-  
-  
+      </form>
+    </div>
   );
 }
 
-export default EmployeeForm;
-
+export default StudentForm;

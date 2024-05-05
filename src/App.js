@@ -2,7 +2,7 @@ import FormPage from "./Pages/FormPage";
 import Emp_TC from "./components/Emp_TC";
 import Emp_TC_OPT from "./components/Emp_TC_OPT";
 import Emp_master from "./components/Emp_master";
-import STUDENT_MASTER from "./components/STUDENT_MASTER";
+import StudentApplicationPage from "./Pages/studentApplicationPage";
 import Login from "./components/login";
 import HomePage from "./Pages/HomePage";
 import ApplicationPage from "./Pages/ApplicationPage";
@@ -24,7 +24,7 @@ function App() {
       <Route path="Emp_TC" element={<Emp_TC/>}/>
       <Route path="Emp_TC_OPT" element={<Emp_TC_OPT/>}/>
       <Route path="Emp_master" element={<Emp_master/>}/>
-      <Route path="STUDENT_MASTER" element={<STUDENT_MASTER/>}/>
+      <Route path="STUDENT_MASTER" element={<StudentApplicationPage/>}/>
       <Route path="homepage" element={<HomePage/>}/>
       <Route path="applications" element={<ApplicationPage/>}/>
       <Route path="register" element={<RegisterPage/>}/>
