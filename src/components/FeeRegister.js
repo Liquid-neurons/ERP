@@ -5,6 +5,7 @@ function FeeRegister() {
   const navigate = useNavigate();
   const { applicationId } = useParams();
   const [data, setData] = useState({});
+  const [instCodes, setInstCodes] = useState([]);
   const [formData, setFormData] = useState({
     INSTITUTE: "",
     STUDENTID: applicationId,
@@ -51,8 +52,25 @@ function FeeRegister() {
       }
     };
 
+    const fetchInstCodes = async () => {
+      try {
+        const response = await fetch("http://49.206.252.212:5000/fetch-inst_codes");
+        if (!response.ok) {
+          throw new Error("Failed to fetch institute codes");
+        }
+        const jsonData = await response.json();
+        setInstCodes(jsonData);
+      } catch (error) {
+        console.error("Error fetching institute codes:", error);
+        // Handle error
+      }
+    };
+
+
     // Call the fetchData function when the component mounts
     fetchData();
+    fetchInstCodes();
+    console.log(instCodes);
 
     // Clean up function (optional)
     return () => {
@@ -114,20 +132,25 @@ function FeeRegister() {
         <div>
           <div className="border p-4 rounded-lg shadow-md">
             <h2 className="text-xl font-bold mb-2">Student Details</h2>
-            <div class="mb-2">
-              <label for="institute" class="form-label block font-semibold">
-                {data.INSTITUTE}* :
-              </label>
-              <select
-                name="INSTITUTE"
-                id="institute"
-                value={formData.INSTITUTE}
-                onChange={handleChange}
-                class="form-input border  rounded-md px-3 py-2 mt-1 mb-5"
-              >
-                <option value="LMS">LMS</option>
-              </select>
-            </div>
+            <div className="mb-2">
+        <label htmlFor="institute" className="form-label block font-semibold">
+          Institute* :
+        </label>
+        <select
+          name="INSTITUTE"
+          id="institute"
+          value={formData.INSTITUTE}
+          onChange={handleChange}
+          className="form-input border rounded-md px-3 py-2 mt-1 mb-5"
+        >
+          <option value="">Select Institute</option>
+          {instCodes.map((code, index) => (
+            <option key={index} value={code}>
+              {code}
+            </option>
+          ))}
+        </select>
+      </div>
             <div class="mb-2">
               <label for="studentid" class="form-label block font-semibold">
                 {data["Student_ID "]}* :

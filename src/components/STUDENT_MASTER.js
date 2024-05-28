@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { PDFDocumentProxy } from 'pdfjs-dist';
+import { PDFDocumentProxy } from "pdfjs-dist";
 import { useUser } from "./contexts/context";
+import { saveAs } from "file-saver";
+import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
+import { useNavigate, useParams } from "react-router-dom";
 
 function StudentForm() {
   const [data, setData] = useState({});
   const { userEmail } = useUser();
-
+  
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Define a function to fetch data from your backend API
@@ -52,7 +56,7 @@ function StudentForm() {
     m_name: "",
     m_quali: "",
     m_occ: "",
-    g_name:"",
+    g_name: "",
     m_income: "",
     c_info: "",
     c_ailment: "",
@@ -67,100 +71,223 @@ function StudentForm() {
     });
   };
 
-
-  
   const [file1, setFile1] = useState(null);
   const [file2, setFile2] = useState(null);
   const [file3, setFile3] = useState(null);
   const [file4, setFile4] = useState(null);
   const [file5, setFile5] = useState(null);
 
+  const handleFileChange1 = (e) => {
+    const file = e.target.files[0];
+    setFile1(file);
+  };
+
+  const handleFileChange2 = (e) => {
+    const file = e.target.files[0];
+    setFile2(file);
+  };
+
+  const handleFileChange3 = (e) => {
+    const file = e.target.files[0];
+    setFile3(file);
+  };
+
+  const handleFileChange4 = (e) => {
+    const file = e.target.files[0];
+    setFile4(file);
+  };
+
+  const handleFileChange5 = (e) => {
+    const file = e.target.files[0];
+    setFile5(file);
+  };
+
+  const generatePDF = async (formData) => {
+    try {
+        // Create a new PDF document
+        const pdfDoc = await PDFDocument.create();
+        const page = pdfDoc.addPage();
+
+        // Add content to the PDF
+        const { width, height } = page.getSize();
+        const fontSize = 15;
+        const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
+
+        // Title
+        const title = "LILY MONTESSORI";
+        const address1 =
+            "House no. 1, Cheramuthu, 2nd cross, Ayappa layout, Behind KMF,";
+        const address2 = "Marathahalli, Bengaluru - 560037,";
+        const phone = "Phone : +9108813990";
+        const email = "Email: lilymontessori2022@gmail.com";
+
+        const titleWidth = helveticaFont.widthOfTextAtSize(title, fontSize);
+        const lineHeight = fontSize + 5; // Adjust this as needed for spacing between lines
+        const centerX = width / 2;
+
+        let currentY = height - 50; // Starting y-coordinate
+
+        // Center aligning title and address
+        page.drawText(title, {
+            x: centerX - titleWidth / 2, // Center aligning title
+            y: currentY,
+            size: fontSize + 5,
+            font: helveticaFont,
+            color: rgb(0, 0, 0),
+        });
+
+        currentY -= lineHeight;
+
+        page.drawText(address1, {
+            x: centerX - helveticaFont.widthOfTextAtSize(address1, fontSize) / 2, // Center aligning
+            y: currentY,
+            size: fontSize,
+            font: helveticaFont,
+            color: rgb(0, 0, 0),
+        });
+
+        currentY -= lineHeight;
+
+        page.drawText(address2, {
+            x: centerX - helveticaFont.widthOfTextAtSize(address2, fontSize) / 2, // Center aligning
+            y: currentY,
+            size: fontSize,
+            font: helveticaFont,
+            color: rgb(0, 0, 0),
+        });
+
+        currentY -= lineHeight;
+
+        page.drawText(phone, {
+            x: centerX - helveticaFont.widthOfTextAtSize(phone, fontSize) / 2, // Center aligning
+            y: currentY,
+            size: fontSize,
+            font: helveticaFont,
+            color: rgb(0, 0, 0),
+        });
+
+        currentY -= lineHeight;
+
+        page.drawText(email, {
+            x: centerX - helveticaFont.widthOfTextAtSize(email, fontSize) / 2, // Center aligning
+            y: currentY,
+            size: fontSize,
+            font: helveticaFont,
+            color: rgb(0, 0, 0),
+        });
 
 
-const handleFileChange1 = (e) => {
-  const file = e.target.files[0];
-  setFile1(file);
+
+        
+
+        // Form fields (left aligned)
+        const startX = 50;
+        const startY = currentY + 50; // Move down after the address
+
+        const drawFormField = (label, value) => {
+          const labelHeight = helveticaFont.heightAtSize(fontSize);
+          const labelLines = Math.ceil(helveticaFont.widthOfTextAtSize(label, fontSize) / (width - startX));
+          const valueLines = Math.ceil(helveticaFont.widthOfTextAtSize(value, fontSize) / (width - (startX + 200)));
+          const totalLines = Math.max(labelLines, valueLines);
+          const totalHeight = totalLines * (fontSize + 5); // Adjust as needed for line spacing
+      
+          page.drawText(label, {
+              x: startX,
+              y: currentY - totalHeight, // Adjusted y-coordinate based on totalHeight
+              size: fontSize,
+              font: helveticaFont,
+              color: rgb(0, 0, 0),
+          });
+      
+          page.drawText(value, {
+              x: startX + 200,
+              y: currentY - totalHeight, // Adjusted y-coordinate based on totalHeight
+              size: fontSize,
+              font: helveticaFont,
+              color: rgb(0, 0, 0),
+          });
+      
+          currentY -= totalHeight;
+      };
+
+          
+        // Render form fields
+        for (const [label, value] of Object.entries(formData)) {
+            drawFormField(label, value);
+        }
+
+
+        // Save the PDF
+        const pdfBytes = await pdfDoc.save();
+        const blob = new Blob([pdfBytes], { type: "application/pdf" });
+        saveAs(blob, "application.pdf");
+    } catch (error) {
+        console.error("Error generating PDF:", error);
+    }
 };
 
-const handleFileChange2 = (e) => {
-  const file = e.target.files[0];
-  setFile2(file);
-};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-const handleFileChange3 = (e) => {
-  const file = e.target.files[0];
-  setFile3(file);
-};
+    try {
+      // Create an object to hold the form data
+      const formDataToSend = {
+        ...formData, // Include regular form data properties
+        files: {
+          file1: await fileToBase64(file1),
+          file2: await fileToBase64(file2),
+          file3: await fileToBase64(file3),
+          file4: await fileToBase64(file4),
+          file5: await fileToBase64(file5),
+        },
+      };
 
-const handleFileChange4 = (e) => {
-  const file = e.target.files[0];
-  setFile4(file);
-};
+      console.log(formDataToSend);
+      // Send the form data and files separately
+      const formDataResponse = await fetch(
+        "http://49.206.252.212:5000/STUDENT_MASTER",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formDataToSend),
+        }
+      );
 
-const handleFileChange5 = (e) => {
-  const file = e.target.files[0];
-  setFile5(file);
-};
-
-
-const handleSubmit = async (e) => {
-  e.preventDefault();
-
-  try {
-    // Create an object to hold the form data
-    const formDataToSend = {
-      ...formData, // Include regular form data properties
-      files: {
-        file1: await fileToBase64(file1),
-        file2: await fileToBase64(file2),
-        file3: await fileToBase64(file3),
-        file4: await fileToBase64(file4),
-        file5: await fileToBase64(file5)
+      if (!formDataResponse.ok) {
+        throw new Error("Network response for form data was not ok");
       }
-    };
 
-    console.log(formDataToSend);
-    // Send the form data and files separately
-    const formDataResponse = await fetch("http://49.206.252.212:5000/STUDENT_MASTER", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(formDataToSend)
+      const formDataData = await formDataResponse.json();
+      console.log(formDataData);
+      if (formDataData.success) {
+        alert(`Application submitted successfully\n \n Your application ID is : ${formDataData.id}`);
+        generatePDF(formData);
+        navigate("/homepage");
+      } else {
+        alert("Data entry failed");
+      }
+    } catch (error) {
+      alert(error.message);
+      console.error("Error:", error);
+    }
+  };
+
+  const fileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      if (!file) {
+        // If no file is provided, resolve the promise with a blank result
+        resolve("");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
     });
-
-    if (!formDataResponse.ok) {
-      throw new Error("Network response for form data was not ok");
-    }
-
-    const formDataData = await formDataResponse.json();
-    console.log("Success:", formDataData);
-    if (formDataData.success) {
-      alert("Data entered successfully");
-    } else {
-      alert("Data entry failed");
-    }
-  } catch (error) {
-    alert(error.message);
-    console.error("Error:", error);
-  }
-};
-
-const fileToBase64 = (file) => {
-  return new Promise((resolve, reject) => {
-    if (!file) {
-      // If no file is provided, resolve the promise with a blank result
-      resolve('');
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-  });
-};
-
+  };
 
   return (
     <div className="container mx-auto p-4">
@@ -462,7 +589,7 @@ const fileToBase64 = (file) => {
                 type="email"
                 name="mail"
                 id="mail"
-                value={userEmail}
+                defaultValue={userEmail}
                 class="form-input border  rounded-md px-3 py-1 mt-1 mb-1"
               />
             </div>
