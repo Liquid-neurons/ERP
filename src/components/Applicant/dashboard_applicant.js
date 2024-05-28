@@ -7,7 +7,7 @@ export const Dashboard_applicant = () => {
     
     const handleDownloadPdf = () => {
         // Replace 'path_to_your_pdf.pdf' with the actual path to your PDF file
-        const pdfUrl = 'http://49.206.252.212:8000/user/harish/files/forms/form_pdf.pdf?_xsrf=2%7Cb4883c89%7Ce0ba613f0fa8d15594fa755e475f5ea9%7C1714138476';
+        const pdfUrl = '/pdf';
     
         // Create a new anchor element
         const anchorElement = document.createElement('a');
