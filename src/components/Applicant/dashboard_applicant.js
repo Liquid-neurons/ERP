@@ -7,7 +7,7 @@ export const Dashboard_applicant = () => {
     
     const handleDownloadPdf = () => {
         // Replace 'path_to_your_pdf.pdf' with the actual path to your PDF file
-        const pdfUrl = '/pdf';
+        const pdfUrl = '/pdf/user/harish/lab/workspaces/auto-m/tree/forms/form_pdf.pdf';
     
         // Create a new anchor element
         const anchorElement = document.createElement('a');
