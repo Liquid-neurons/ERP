@@ -104,7 +104,7 @@ function StudentData() {
       const data = await response.json();
       console.log(data); // Handle response data here
       alert("Applicant accepted");
-      navigate("/applications");
+      navigate("/homepage-admin");
     } catch (error) {
       console.error("Error accepting:", error);
     }

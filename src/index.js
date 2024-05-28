@@ -3,13 +3,16 @@ import ReactDOM from 'react-dom/client';
 import './index.css'
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { UserProvider } from './components/contexts/context';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <UserProvider>
     <div className='bg-gray-100'>
     <App />
     </div>
+    </UserProvider>
   </React.StrictMode>
 );
 

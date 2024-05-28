@@ -2,7 +2,7 @@ import React from 'react';
 import Navbar from '../components/navbar';
 import ListNew from '../components/ListNew.js';
 
-function ApplicationPage(){
+function  ReviewApplicationPage(){
     return(
         <>
         <Navbar/>
@@ -11,4 +11,4 @@ function ApplicationPage(){
     );
 }
 
-export default ApplicationPage;
+export default ReviewApplicationPage;

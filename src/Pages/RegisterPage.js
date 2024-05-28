@@ -2,7 +2,7 @@ import React from 'react';
 import Navbar from '../components/navbar';
 import ListAccepted from '../components/ListAccepted';
 
-function ApplicationPage(){
+function RegisterPage(){
     return(
         <>
         <Navbar/>
@@ -11,4 +11,4 @@ function ApplicationPage(){
     );
 }
 
-export default ApplicationPage;
+export default RegisterPage;

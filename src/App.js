@@ -5,14 +5,17 @@ import Emp_master from "./components/Emp_master";
 import StudentApplicationPage from "./Pages/studentApplicationPage";
 import Login from "./components/login";
 import HomePage from "./Pages/HomePage";
-import ApplicationPage from "./Pages/ApplicationPage";
+import HomePageAdmin from "./Pages/HomePageAdmin";
+import ReviewApplicationPage from "./Pages/ApplicationPage";
 import StudentData from "./components/studentdata";
 import RegisterPage from "./Pages/RegisterPage"
 import FeeRegisterationPage from "./Pages/FeeRegistrationPage";
 import SiblingRegisterationPage from "./Pages/SiblingRegistrationPage";
 import ViewApplication from "./components/viewapplication";
 import StudentRegisterationPage from "./Pages/StudentRegisterPage";
+import Signup from "./components/signup";
 import { BrowserRouter as Router, Route, Routes, Form } from 'react-router-dom';
+import ApplicationStatus from "./Pages/ApplicationStatus";
 
 function App() {
   return (
@@ -20,13 +23,16 @@ function App() {
       <Router>
       <Routes>
       <Route path="/" element={<Login/>}/>
+      <Route path="/signup" element={<Signup/>}/>
+      <Route path="/liststatus" element={<ApplicationStatus/>}/>
       <Route path="forms" element={<FormPage/>}/>
       <Route path="Emp_TC" element={<Emp_TC/>}/>
       <Route path="Emp_TC_OPT" element={<Emp_TC_OPT/>}/>
       <Route path="Emp_master" element={<Emp_master/>}/>
       <Route path="STUDENT_MASTER" element={<StudentApplicationPage/>}/>
       <Route path="homepage" element={<HomePage/>}/>
-      <Route path="applications" element={<ApplicationPage/>}/>
+      <Route path="homepage-admin" element={<HomePageAdmin/>}/>
+      <Route path="review-applications" element={<ReviewApplicationPage/>}/>
       <Route path="register" element={<RegisterPage/>}/>
       <Route path="/student-data/:applicationId" element={<StudentData/>}/>
       <Route path="/view-application/:applicationId" element={<ViewApplication/>}/>

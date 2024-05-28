@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { PDFDocumentProxy } from 'pdfjs-dist';
+import { useUser } from "./contexts/context";
 
 function StudentForm() {
   const [data, setData] = useState({});
+  const { userEmail } = useUser();
+
 
   useEffect(() => {
     // Define a function to fetch data from your backend API
@@ -145,12 +148,19 @@ const handleSubmit = async (e) => {
 
 const fileToBase64 = (file) => {
   return new Promise((resolve, reject) => {
+    if (!file) {
+      // If no file is provided, resolve the promise with a blank result
+      resolve('');
+      return;
+    }
+
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => resolve(reader.result);
     reader.onerror = (error) => reject(error);
   });
 };
+
 
   return (
     <div className="container mx-auto p-4">
@@ -452,8 +462,7 @@ const fileToBase64 = (file) => {
                 type="email"
                 name="mail"
                 id="mail"
-                value={formData.mail}
-                onChange={handleChange}
+                value={userEmail}
                 class="form-input border  rounded-md px-3 py-1 mt-1 mb-1"
               />
             </div>
@@ -508,30 +517,6 @@ const fileToBase64 = (file) => {
             <h2 className="text-xl font-bold mb-2">Certificates and records</h2>
             <div className="mb-2">
               <label htmlFor="image" className="form-label block font-semibold">
-                {data.Cert1}* :
-              </label>
-              <input
-                type="file"
-                name="image"
-                id="image"
-                onChange={handleFileChange2}
-                className="form-input"
-              />
-            </div>
-            <div className="mb-2">
-              <label htmlFor="image" className="form-label block font-semibold">
-                {data.Cert2}* :
-              </label>
-              <input
-                type="file"
-                name="image"
-                id="image"
-                onChange={handleFileChange3}
-                className="form-input"
-              />
-            </div>
-            <div className="mb-2">
-              <label htmlFor="image" className="form-label block font-semibold">
                 {data.Cert3}* :
               </label>
               <input
@@ -544,13 +529,37 @@ const fileToBase64 = (file) => {
             </div>
             <div className="mb-2">
               <label htmlFor="image" className="form-label block font-semibold">
-                {data.Cert4}* :
+                {data.Cert1} :
+              </label>
+              <input
+                type="file"
+                name="image"
+                id="image"
+                onChange={handleFileChange2}
+                className="form-input"
+              />
+            </div>
+            <div className="mb-2">
+              <label htmlFor="image" className="form-label block font-semibold">
+                {data.Cert4} :
               </label>
               <input
                 type="file"
                 name="image"
                 id="image"
                 onChange={handleFileChange5}
+                className="form-input"
+              />
+            </div>
+            <div className="mb-2">
+              <label htmlFor="image" className="form-label block font-semibold">
+                {data.Cert2} :
+              </label>
+              <input
+                type="file"
+                name="image"
+                id="image"
+                onChange={handleFileChange3}
                 className="form-input"
               />
             </div>

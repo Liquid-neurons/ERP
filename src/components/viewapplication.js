@@ -83,57 +83,8 @@ function ViewApplication() {
       </div>
     );
   }
-  const handleAccept = async () => {
-    try {
-      const response = await fetch("http://49.206.252.212:5000/status-update", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          message: "accept",
-          applicationid: applicationId,
-        }),
-      });
+  
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const data = await response.json();
-      console.log(data); // Handle response data here
-      alert("Applicant accepted");
-      navigate("/applications");
-    } catch (error) {
-      console.error("Error accepting:", error);
-    }
-  };
-
-  const handleReject = async () => {
-    try {
-      const response = await fetch("http://49.206.252.212:5000/status-update", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          message: "reject",
-          applicationid: applicationId,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const data = await response.json();
-      console.log(data); // Handle response data here
-      alert("Applicant rejected");
-      navigate("/applications");
-    } catch (error) {
-      console.error("Error rejecting:", error);
-    }
-  };
   const openCertificate = (certificate) => {
     // Decode the base64 string
     const byteArray = new Uint8Array(fromByteArray(certificate));
@@ -158,7 +109,11 @@ function ViewApplication() {
         <div className="border p-4 rounded-lg shadow-md">
           <h2 className="text-2xl">Student Information</h2>
           <div className="grid grid-cols-1 gap-2">
-            <img src={`${studentData.IMAGE}`} alt="Profile picture" className="w-full rounded-lg" />
+          <img
+            src={`data:image/jpeg;base64,${studentData.IMAGE}`} // Assuming IMAGE field contains JPEG data
+            alt="Student Image"
+            style={{ maxWidth: '100%', height: 'auto' }}
+          />
             <p><span className="font-semibold">{data.NAME}</span> {studentData.NAME}</p>
             <p><span className="font-semibold">{data["BDATE"]}:</span> {studentData.BDATE}</p>
             <p><span className="font-semibold">{data["SEX "]}:</span> {studentData.SEX}</p>
