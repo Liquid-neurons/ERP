@@ -6,6 +6,7 @@ function FeeRegister() {
   const { applicationId } = useParams();
   const [data, setData] = useState({});
   const [instCodes, setInstCodes] = useState([]);
+  const [grades, setGrades] = useState([]);
   const [formData, setFormData] = useState({
     INSTITUTE: "",
     STUDENTID: applicationId,
@@ -54,7 +55,9 @@ function FeeRegister() {
 
     const fetchInstCodes = async () => {
       try {
-        const response = await fetch("http://49.206.252.212:5000/fetch-inst_codes");
+        const response = await fetch(
+          "http://49.206.252.212:5000/fetch-inst_codes"
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch institute codes");
         }
@@ -65,7 +68,6 @@ function FeeRegister() {
         // Handle error
       }
     };
-
 
     // Call the fetchData function when the component mounts
     fetchData();
@@ -123,6 +125,44 @@ function FeeRegister() {
       });
   };
 
+  const fetchGrades = async (e) => {
+    try {
+      const institute = formData.INSTITUTE;
+      const response = await fetch("http://49.206.252.212:5000/fetch-grades", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ INSTITUTE: institute }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch grades");
+      }
+
+      const jsonData = await response.json();
+      setGrades(jsonData);
+      console.log(grades);
+    } catch (error) {
+      console.error("Error fetching grades:", error);
+      // Handle error
+    }
+  };
+
+  const handleInstituteChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  useEffect(() => {
+    if (formData.INSTITUTE) {
+      fetchGrades();
+    }
+  }, [formData.INSTITUTE]);
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-semibold mb-2 flex justify-center">
@@ -133,24 +173,27 @@ function FeeRegister() {
           <div className="border p-4 rounded-lg shadow-md">
             <h2 className="text-xl font-bold mb-2">Student Details</h2>
             <div className="mb-2">
-        <label htmlFor="institute" className="form-label block font-semibold">
-          Institute* :
-        </label>
-        <select
-          name="INSTITUTE"
-          id="institute"
-          value={formData.INSTITUTE}
-          onChange={handleChange}
-          className="form-input border rounded-md px-3 py-2 mt-1 mb-5"
-        >
-          <option value="">Select Institute</option>
-          {instCodes.map((code, index) => (
-            <option key={index} value={code}>
-              {code}
-            </option>
-          ))}
-        </select>
-      </div>
+              <label
+                htmlFor="institute"
+                className="form-label block font-semibold"
+              >
+                Institute* :
+              </label>
+              <select
+                name="INSTITUTE"
+                id="institute"
+                value={formData.INSTITUTE}
+                onChange={handleInstituteChange}
+                className="form-input border rounded-md px-3 py-2 mt-1 mb-5"
+              >
+                <option value="">Select Institute</option>
+                {instCodes.map((code, index) => (
+                  <option key={index} value={code}>
+                    {code}
+                  </option>
+                ))}
+              </select>
+            </div>
             <div class="mb-2">
               <label for="studentid" class="form-label block font-semibold">
                 {data["Student_ID "]}* :
@@ -181,14 +224,20 @@ function FeeRegister() {
               <label for="class" class="form-label block font-semibold">
                 {data.CLASS}* :
               </label>
-              <input
-                type="text"
+              <select
                 name="CLASS"
                 id="class"
                 value={formData.CLASS}
-                onChange={handleChange}
-                class="form-input border  rounded-md px-3 py-2 mt-1 mb-5"
-              />
+                onChange={handleInstituteChange}
+                className="form-input border rounded-md px-3 py-2 mt-1 mb-5"
+              >
+                <option value="">Select Class</option>
+                {grades.map((code, index) => (
+                  <option key={index} value={code}>
+                    {code}
+                  </option>
+                ))}
+              </select>
             </div>
             <div class="mb-2">
               <label for="chatid" class="form-label block font-semibold">
@@ -497,17 +546,16 @@ function FeeRegister() {
 
         <div></div>
         <div className="col-span-3 flex justify-center mt-14">
-            <button
-              type="submit"
-              className="form-button bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-5 px-12 rounded flex"
-            >
-              Submit
-            </button>
-          </div>
+          <button
+            type="submit"
+            className="form-button bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-5 px-12 rounded flex"
+          >
+            Submit
+          </button>
+        </div>
       </form>
     </div>
   );
 }
 
 export default FeeRegister;
-

@@ -8,7 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 function StudentForm() {
   const [data, setData] = useState({});
   const { userEmail } = useUser();
-  
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -49,7 +49,7 @@ function StudentForm() {
     p_phone: "",
     distance: "",
     s_phone: "",
-    mail: "",
+    mail: userEmail,
     f_name: "",
     f_quali: "",
     f_occ: "",
@@ -104,127 +104,126 @@ function StudentForm() {
 
   const generatePDF = async (formData) => {
     try {
-        // Create a new PDF document
-        const pdfDoc = await PDFDocument.create();
-        const page = pdfDoc.addPage();
+      // Create a new PDF document
+      const pdfDoc = await PDFDocument.create();
+      const page = pdfDoc.addPage();
 
-        // Add content to the PDF
-        const { width, height } = page.getSize();
-        const fontSize = 15;
-        const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
+      // Add content to the PDF
+      const { width, height } = page.getSize();
+      const fontSize = 15;
+      const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
 
-        // Title
-        const title = "LILY MONTESSORI";
-        const address1 =
-            "House no. 1, Cheramuthu, 2nd cross, Ayappa layout, Behind KMF,";
-        const address2 = "Marathahalli, Bengaluru - 560037,";
-        const phone = "Phone : +9108813990";
-        const email = "Email: lilymontessori2022@gmail.com";
+      // Title
+      const title = "LILY MONTESSORI";
+      const address1 =
+        "House no. 1, Cheramuthu, 2nd cross, Ayappa layout, Behind KMF,";
+      const address2 = "Marathahalli, Bengaluru - 560037,";
+      const phone = "Phone : +9108813990";
+      const email = "Email: lilymontessori2022@gmail.com";
 
-        const titleWidth = helveticaFont.widthOfTextAtSize(title, fontSize);
-        const lineHeight = fontSize + 5; // Adjust this as needed for spacing between lines
-        const centerX = width / 2;
+      const titleWidth = helveticaFont.widthOfTextAtSize(title, fontSize);
+      const lineHeight = fontSize + 5; // Adjust this as needed for spacing between lines
+      const centerX = width / 2;
 
-        let currentY = height - 50; // Starting y-coordinate
+      let currentY = height - 50; // Starting y-coordinate
 
-        // Center aligning title and address
-        page.drawText(title, {
-            x: centerX - titleWidth / 2, // Center aligning title
-            y: currentY,
-            size: fontSize + 5,
-            font: helveticaFont,
-            color: rgb(0, 0, 0),
+      // Center aligning title and address
+      page.drawText(title, {
+        x: centerX - titleWidth / 2, // Center aligning title
+        y: currentY,
+        size: fontSize + 5,
+        font: helveticaFont,
+        color: rgb(0, 0, 0),
+      });
+
+      currentY -= lineHeight;
+
+      page.drawText(address1, {
+        x: centerX - helveticaFont.widthOfTextAtSize(address1, fontSize) / 2, // Center aligning
+        y: currentY,
+        size: fontSize,
+        font: helveticaFont,
+        color: rgb(0, 0, 0),
+      });
+
+      currentY -= lineHeight;
+
+      page.drawText(address2, {
+        x: centerX - helveticaFont.widthOfTextAtSize(address2, fontSize) / 2, // Center aligning
+        y: currentY,
+        size: fontSize,
+        font: helveticaFont,
+        color: rgb(0, 0, 0),
+      });
+
+      currentY -= lineHeight;
+
+      page.drawText(phone, {
+        x: centerX - helveticaFont.widthOfTextAtSize(phone, fontSize) / 2, // Center aligning
+        y: currentY,
+        size: fontSize,
+        font: helveticaFont,
+        color: rgb(0, 0, 0),
+      });
+
+      currentY -= lineHeight;
+
+      page.drawText(email, {
+        x: centerX - helveticaFont.widthOfTextAtSize(email, fontSize) / 2, // Center aligning
+        y: currentY,
+        size: fontSize,
+        font: helveticaFont,
+        color: rgb(0, 0, 0),
+      });
+
+      // Form fields (left aligned)
+      const startX = 50;
+      const startY = currentY + 50; // Move down after the address
+
+      const drawFormField = (label, value) => {
+        const labelHeight = helveticaFont.heightAtSize(fontSize);
+        const labelLines = Math.ceil(
+          helveticaFont.widthOfTextAtSize(label, fontSize) / (width - startX)
+        );
+        const valueLines = Math.ceil(
+          helveticaFont.widthOfTextAtSize(value, fontSize) /
+            (width - (startX + 200))
+        );
+        const totalLines = Math.max(labelLines, valueLines);
+        const totalHeight = totalLines * (fontSize + 5); // Adjust as needed for line spacing
+
+        page.drawText(label, {
+          x: startX,
+          y: currentY - totalHeight, // Adjusted y-coordinate based on totalHeight
+          size: fontSize,
+          font: helveticaFont,
+          color: rgb(0, 0, 0),
         });
 
-        currentY -= lineHeight;
-
-        page.drawText(address1, {
-            x: centerX - helveticaFont.widthOfTextAtSize(address1, fontSize) / 2, // Center aligning
-            y: currentY,
-            size: fontSize,
-            font: helveticaFont,
-            color: rgb(0, 0, 0),
+        page.drawText(value, {
+          x: startX + 200,
+          y: currentY - totalHeight, // Adjusted y-coordinate based on totalHeight
+          size: fontSize,
+          font: helveticaFont,
+          color: rgb(0, 0, 0),
         });
 
-        currentY -= lineHeight;
-
-        page.drawText(address2, {
-            x: centerX - helveticaFont.widthOfTextAtSize(address2, fontSize) / 2, // Center aligning
-            y: currentY,
-            size: fontSize,
-            font: helveticaFont,
-            color: rgb(0, 0, 0),
-        });
-
-        currentY -= lineHeight;
-
-        page.drawText(phone, {
-            x: centerX - helveticaFont.widthOfTextAtSize(phone, fontSize) / 2, // Center aligning
-            y: currentY,
-            size: fontSize,
-            font: helveticaFont,
-            color: rgb(0, 0, 0),
-        });
-
-        currentY -= lineHeight;
-
-        page.drawText(email, {
-            x: centerX - helveticaFont.widthOfTextAtSize(email, fontSize) / 2, // Center aligning
-            y: currentY,
-            size: fontSize,
-            font: helveticaFont,
-            color: rgb(0, 0, 0),
-        });
-
-
-
-        
-
-        // Form fields (left aligned)
-        const startX = 50;
-        const startY = currentY + 50; // Move down after the address
-
-        const drawFormField = (label, value) => {
-          const labelHeight = helveticaFont.heightAtSize(fontSize);
-          const labelLines = Math.ceil(helveticaFont.widthOfTextAtSize(label, fontSize) / (width - startX));
-          const valueLines = Math.ceil(helveticaFont.widthOfTextAtSize(value, fontSize) / (width - (startX + 200)));
-          const totalLines = Math.max(labelLines, valueLines);
-          const totalHeight = totalLines * (fontSize + 5); // Adjust as needed for line spacing
-      
-          page.drawText(label, {
-              x: startX,
-              y: currentY - totalHeight, // Adjusted y-coordinate based on totalHeight
-              size: fontSize,
-              font: helveticaFont,
-              color: rgb(0, 0, 0),
-          });
-      
-          page.drawText(value, {
-              x: startX + 200,
-              y: currentY - totalHeight, // Adjusted y-coordinate based on totalHeight
-              size: fontSize,
-              font: helveticaFont,
-              color: rgb(0, 0, 0),
-          });
-      
-          currentY -= totalHeight;
+        currentY -= totalHeight;
       };
 
-          
-        // Render form fields
-        for (const [label, value] of Object.entries(formData)) {
-            drawFormField(label, value);
-        }
+      // Render form fields
+      for (const [label, value] of Object.entries(formData)) {
+        drawFormField(label, value);
+      }
 
-
-        // Save the PDF
-        const pdfBytes = await pdfDoc.save();
-        const blob = new Blob([pdfBytes], { type: "application/pdf" });
-        saveAs(blob, "application.pdf");
+      // Save the PDF
+      const pdfBytes = await pdfDoc.save();
+      const blob = new Blob([pdfBytes], { type: "application/pdf" });
+      saveAs(blob, "application.pdf");
     } catch (error) {
-        console.error("Error generating PDF:", error);
+      console.error("Error generating PDF:", error);
     }
-};
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -262,7 +261,9 @@ function StudentForm() {
       const formDataData = await formDataResponse.json();
       console.log(formDataData);
       if (formDataData.success) {
-        alert(`Application submitted successfully\n \n Your application ID is : ${formDataData.id}`);
+        alert(
+          `Application submitted successfully\n \n Your application ID is : ${formDataData.id}`
+        );
         generatePDF(formData);
         navigate("/homepage");
       } else {
@@ -589,8 +590,9 @@ function StudentForm() {
                 type="email"
                 name="mail"
                 id="mail"
-                defaultValue={userEmail}
-                class="form-input border  rounded-md px-3 py-1 mt-1 mb-1"
+                value={userEmail} // Set the value directly from the prop
+                className="form-input border rounded-md px-3 py-1 mt-1 mb-1"
+                readOnly // Make the input field read-only to prevent user modification
               />
             </div>
             <div class="mb-2">
