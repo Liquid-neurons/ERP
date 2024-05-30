@@ -229,7 +229,10 @@ function StudentForm() {
     e.preventDefault();
 
     try {
-      // Create an object to hold the form data
+      //Error handling)
+      
+      
+      
       const formDataToSend = {
         ...formData, // Include regular form data properties
         files: {
@@ -309,6 +312,7 @@ function StudentForm() {
                 id="image"
                 onChange={handleFileChange1}
                 className="form-input"
+                required
               />
             </div>
             <div class="mb-2">
@@ -322,6 +326,7 @@ function StudentForm() {
                 value={formData.name}
                 onChange={handleChange}
                 class="form-input border  rounded-md px-1 py-1 mt-1 mb-1 "
+                required
               />
             </div>
             <div class="mb-2">
@@ -335,6 +340,7 @@ function StudentForm() {
                 value={formData.bdate}
                 onChange={handleChange}
                 class="form-input px-3 py-1 mt-1 mb-1"
+                required
               />
             </div>
             <div class="mb-2">
@@ -364,6 +370,7 @@ function StudentForm() {
                 value={formData.mtongue}
                 onChange={handleChange}
                 class="form-input border  rounded-md px-3 py-1 mt-1 mb-1"
+                required
               />
             </div>
             <div class="mb-2">
@@ -405,6 +412,7 @@ function StudentForm() {
                 value={formData.p_address}
                 onChange={handleChange}
                 class="form-input border rounded-md px-3 py-1 mt-1 mb-1 h-40 w-3/4"
+                required
               ></textarea>
             </div>
             <div class="mb-2">
@@ -418,6 +426,7 @@ function StudentForm() {
                 value={formData.p_phone}
                 onChange={handleChange}
                 class="form-input border  rounded-md px-3 py-1 mt-1 mb-1"
+                required
               />
             </div>
             <div class="mb-2">
@@ -452,6 +461,7 @@ function StudentForm() {
                 value={formData.f_name}
                 onChange={handleChange}
                 className="form-input border rounded-md"
+                required
               />
             </div>
             <div class="mb-2">
@@ -459,7 +469,7 @@ function StudentForm() {
                 for="parentEducation"
                 class="form-label block font-semibold"
               >
-                {data.F_QUALI} :
+                {data.F_QUALI}* :
               </label>
               <input
                 type="text"
@@ -468,6 +478,7 @@ function StudentForm() {
                 value={formData.f_quali}
                 onChange={handleChange}
                 class="form-input border rounded-md"
+                required
               />
             </div>
             <div class="mb-2">
@@ -475,7 +486,7 @@ function StudentForm() {
                 for="parentEducation"
                 class="form-label block font-semibold"
               >
-                {data.F_OCC} :
+                {data.F_OCC}* :
               </label>
               <input
                 type="text"
@@ -484,6 +495,7 @@ function StudentForm() {
                 value={formData.f_occ}
                 onChange={handleChange}
                 class="form-input border rounded-md"
+                required
               />
             </div>
             <div class="mb-2">
@@ -497,6 +509,7 @@ function StudentForm() {
                 value={formData.m_name}
                 onChange={handleChange}
                 class="form-input border  rounded-md px-3 py-1 mt-1 mb-1"
+                required
               />
             </div>
             <div class="mb-2">
@@ -510,6 +523,7 @@ function StudentForm() {
                 value={formData.m_quali}
                 onChange={handleChange}
                 class="form-input border  rounded-md px-3 py-1 mt-1 mb-1"
+                required
               />
             </div>
             <div class="mb-2">
@@ -523,6 +537,7 @@ function StudentForm() {
                 value={formData.m_occ}
                 onChange={handleChange}
                 class="form-input border  rounded-md px-3 py-1 mt-1 mb-1"
+                required
               />
             </div>
             <div class="mb-2">
@@ -654,6 +669,7 @@ function StudentForm() {
                 id="image"
                 onChange={handleFileChange4}
                 className="form-input"
+                required
               />
             </div>
             <div className="mb-2">

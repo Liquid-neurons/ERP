@@ -87,16 +87,19 @@ function ViewApplication() {
 
   const openCertificate = (certificate) => {
     // Decode the base64 string
-    const byteArray = new Uint8Array(fromByteArray(certificate));
-    
+    const byteArray = new Uint8Array(
+      atob(certificate)
+        .split("")
+        .map((char) => char.charCodeAt(0))
+    );
+
     // Create a blob from the byte array
-    const blob = new Blob([byteArray], { type: 'application/pdf' });
-    
+    const blob = new Blob([byteArray], { type: "application/pdf" });
+
     // Create a URL for the blob and open it in a new tab
     const url = URL.createObjectURL(blob);
-    window.open(url, '_blank');
+    window.open(url, "_blank");
   };
-
   // Display student data when available
   return (
     <div className="container mx-auto p-4">
@@ -112,7 +115,7 @@ function ViewApplication() {
           <img
             src={`data:image/jpeg;base64,${studentData.IMAGE}`} // Assuming IMAGE field contains JPEG data
             alt="Student Image"
-            style={{ maxWidth: '100%', height: 'auto' }}
+            style={{ maxWidth: '30%', height: 'auto' }}
           />
             <p><span className="font-semibold">{data.NAME}</span> {studentData.NAME}</p>
             <p><span className="font-semibold">{data["BDATE"]}:</span> {studentData.BDATE}</p>
@@ -155,18 +158,34 @@ function ViewApplication() {
           </div>
         </div>
         
-        {/* Certificates */}
-        <div className="border p-4 rounded-lg shadow-md">
-          <h2 className="text-2xl">Certificates</h2>
-          <p><span className="font-semibold">{data["Cert1"]}:</span> 
-          <button onClick={openCertificate}>View</button></p>
-            <p><span className="font-semibold">{data["Cert2"]}:</span> 
-            <button onClick={openCertificate} >View</button></p>
-            <p><span className="font-semibold">{data["Cert3"]}:</span> 
-            <button onClick={openCertificate}>View</button></p>
-            <p><span className="font-semibold">{data["Cert4"]}:</span>
-            <button onClick={openCertificate}>View</button></p>
-        </div>
+       {/* Certificates */}
+       <div className="border p-4 rounded-lg shadow-md">
+            <h2 className="text-2xl">Certificates</h2>
+            <p>
+              <span className="font-semibold">{data["Cert1"]}:</span>
+              <button onClick={() => openCertificate(studentData["Cert1"])}>
+                View
+              </button>
+            </p>
+            <p>
+              <span className="font-semibold">{data["Cert2"]}:</span>
+              <button onClick={() => openCertificate(studentData["Cert2"])}>
+                View
+              </button>
+            </p>
+            <p>
+              <span className="font-semibold">{data["Cert3"]}:</span>
+              <button onClick={() => openCertificate(studentData["Cert3"])}>
+                View
+              </button>
+            </p>
+            <p>
+              <span className="font-semibold">{data["Cert4"]}:</span>
+              <button onClick={() => openCertificate(studentData["Cert4"])}>
+                View
+              </button>
+            </p>
+          </div>
       </div>
       ) : (
         <p>No data available for application ID: {applicationId}</p>
