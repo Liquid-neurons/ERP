@@ -8,6 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 function StudentForm() {
   const [data, setData] = useState({});
   const { userEmail } = useUser();
+  const [errors, setErrors] = useState({});
 
   const navigate = useNavigate();
 
@@ -102,131 +103,172 @@ function StudentForm() {
     setFile5(file);
   };
 
-  const generatePDF = async (formData) => {
-    try {
-      // Create a new PDF document
-      const pdfDoc = await PDFDocument.create();
-      const page = pdfDoc.addPage();
+  // const generatePDF = async (formData) => {
+  //   try {
+  //     // Create a new PDF document
+  //     const pdfDoc = await PDFDocument.create();
+  //     const page = pdfDoc.addPage();
 
-      // Add content to the PDF
-      const { width, height } = page.getSize();
-      const fontSize = 15;
-      const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
+  //     // Add content to the PDF
+  //     const { width, height } = page.getSize();
+  //     const fontSize = 15;
+  //     const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
 
-      // Title
-      const title = "LILY MONTESSORI";
-      const address1 =
-        "House no. 1, Cheramuthu, 2nd cross, Ayappa layout, Behind KMF,";
-      const address2 = "Marathahalli, Bengaluru - 560037,";
-      const phone = "Phone : +9108813990";
-      const email = "Email: lilymontessori2022@gmail.com";
+  //     // Title
+  //     const title = "LILY MONTESSORI";
+  //     const address1 =
+  //       "House no. 1, Cheramuthu, 2nd cross, Ayappa layout, Behind KMF,";
+  //     const address2 = "Marathahalli, Bengaluru - 560037,";
+  //     const phone = "Phone : +9108813990";
+  //     const email = "Email: lilymontessori2022@gmail.com";
 
-      const titleWidth = helveticaFont.widthOfTextAtSize(title, fontSize);
-      const lineHeight = fontSize + 5; // Adjust this as needed for spacing between lines
-      const centerX = width / 2;
+  //     const titleWidth = helveticaFont.widthOfTextAtSize(title, fontSize);
+  //     const lineHeight = fontSize + 5; // Adjust this as needed for spacing between lines
+  //     const centerX = width / 2;
 
-      let currentY = height - 50; // Starting y-coordinate
+  //     let currentY = height - 50; // Starting y-coordinate
 
-      // Center aligning title and address
-      page.drawText(title, {
-        x: centerX - titleWidth / 2, // Center aligning title
-        y: currentY,
-        size: fontSize + 5,
-        font: helveticaFont,
-        color: rgb(0, 0, 0),
-      });
+  //     // Center aligning title and address
+  //     page.drawText(title, {
+  //       x: centerX - titleWidth / 2, // Center aligning title
+  //       y: currentY,
+  //       size: fontSize + 5,
+  //       font: helveticaFont,
+  //       color: rgb(0, 0, 0),
+  //     });
 
-      currentY -= lineHeight;
+  //     currentY -= lineHeight;
 
-      page.drawText(address1, {
-        x: centerX - helveticaFont.widthOfTextAtSize(address1, fontSize) / 2, // Center aligning
-        y: currentY,
-        size: fontSize,
-        font: helveticaFont,
-        color: rgb(0, 0, 0),
-      });
+  //     page.drawText(address1, {
+  //       x: centerX - helveticaFont.widthOfTextAtSize(address1, fontSize) / 2, // Center aligning
+  //       y: currentY,
+  //       size: fontSize,
+  //       font: helveticaFont,
+  //       color: rgb(0, 0, 0),
+  //     });
 
-      currentY -= lineHeight;
+  //     currentY -= lineHeight;
 
-      page.drawText(address2, {
-        x: centerX - helveticaFont.widthOfTextAtSize(address2, fontSize) / 2, // Center aligning
-        y: currentY,
-        size: fontSize,
-        font: helveticaFont,
-        color: rgb(0, 0, 0),
-      });
+  //     page.drawText(address2, {
+  //       x: centerX - helveticaFont.widthOfTextAtSize(address2, fontSize) / 2, // Center aligning
+  //       y: currentY,
+  //       size: fontSize,
+  //       font: helveticaFont,
+  //       color: rgb(0, 0, 0),
+  //     });
 
-      currentY -= lineHeight;
+  //     currentY -= lineHeight;
 
-      page.drawText(phone, {
-        x: centerX - helveticaFont.widthOfTextAtSize(phone, fontSize) / 2, // Center aligning
-        y: currentY,
-        size: fontSize,
-        font: helveticaFont,
-        color: rgb(0, 0, 0),
-      });
+  //     page.drawText(phone, {
+  //       x: centerX - helveticaFont.widthOfTextAtSize(phone, fontSize) / 2, // Center aligning
+  //       y: currentY,
+  //       size: fontSize,
+  //       font: helveticaFont,
+  //       color: rgb(0, 0, 0),
+  //     });
 
-      currentY -= lineHeight;
+  //     currentY -= lineHeight;
 
-      page.drawText(email, {
-        x: centerX - helveticaFont.widthOfTextAtSize(email, fontSize) / 2, // Center aligning
-        y: currentY,
-        size: fontSize,
-        font: helveticaFont,
-        color: rgb(0, 0, 0),
-      });
+  //     page.drawText(email, {
+  //       x: centerX - helveticaFont.widthOfTextAtSize(email, fontSize) / 2, // Center aligning
+  //       y: currentY,
+  //       size: fontSize,
+  //       font: helveticaFont,
+  //       color: rgb(0, 0, 0),
+  //     });
 
-      // Form fields (left aligned)
-      const startX = 50;
-      const startY = currentY + 50; // Move down after the address
+  //     // Form fields (left aligned)
+  //     const startX = 50;
+  //     const startY = currentY + 50; // Move down after the address
 
-      const drawFormField = (label, value) => {
-        const labelHeight = helveticaFont.heightAtSize(fontSize);
-        const labelLines = Math.ceil(
-          helveticaFont.widthOfTextAtSize(label, fontSize) / (width - startX)
-        );
-        const valueLines = Math.ceil(
-          helveticaFont.widthOfTextAtSize(value, fontSize) /
-            (width - (startX + 200))
-        );
-        const totalLines = Math.max(labelLines, valueLines);
-        const totalHeight = totalLines * (fontSize + 5); // Adjust as needed for line spacing
+  //     const drawFormField = (label, value) => {
+  //       const labelHeight = helveticaFont.heightAtSize(fontSize);
+  //       const labelLines = Math.ceil(
+  //         helveticaFont.widthOfTextAtSize(label, fontSize) / (width - startX)
+  //       );
+  //       const valueLines = Math.ceil(
+  //         helveticaFont.widthOfTextAtSize(value, fontSize) /
+  //           (width - (startX + 200))
+  //       );
+  //       const totalLines = Math.max(labelLines, valueLines);
+  //       const totalHeight = totalLines * (fontSize + 5); // Adjust as needed for line spacing
 
-        page.drawText(label, {
-          x: startX,
-          y: currentY - totalHeight, // Adjusted y-coordinate based on totalHeight
-          size: fontSize,
-          font: helveticaFont,
-          color: rgb(0, 0, 0),
-        });
+  //       page.drawText(label, {
+  //         x: startX,
+  //         y: currentY - totalHeight, // Adjusted y-coordinate based on totalHeight
+  //         size: fontSize,
+  //         font: helveticaFont,
+  //         color: rgb(0, 0, 0),
+  //       });
 
-        page.drawText(value, {
-          x: startX + 200,
-          y: currentY - totalHeight, // Adjusted y-coordinate based on totalHeight
-          size: fontSize,
-          font: helveticaFont,
-          color: rgb(0, 0, 0),
-        });
+  //       page.drawText(value, {
+  //         x: startX + 200,
+  //         y: currentY - totalHeight, // Adjusted y-coordinate based on totalHeight
+  //         size: fontSize,
+  //         font: helveticaFont,
+  //         color: rgb(0, 0, 0),
+  //       });
 
-        currentY -= totalHeight;
-      };
+  //       currentY -= totalHeight;
+  //     };
 
-      // Render form fields
-      for (const [label, value] of Object.entries(formData)) {
-        drawFormField(label, value);
-      }
+  //     // Render form fields
+  //     for (const [label, value] of Object.entries(formData)) {
+  //       drawFormField(label, value);
+  //     }
 
-      // Save the PDF
-      const pdfBytes = await pdfDoc.save();
-      const blob = new Blob([pdfBytes], { type: "application/pdf" });
-      saveAs(blob, "application.pdf");
-    } catch (error) {
-      console.error("Error generating PDF:", error);
+  //     // Save the PDF
+  //     const pdfBytes = await pdfDoc.save();
+  //     const blob = new Blob([pdfBytes], { type: "application/pdf" });
+  //     saveAs(blob, "application.pdf");
+  //   } catch (error) {
+  //     console.error("Error generating PDF:", error);
+  //   }
+  // };
+
+  const validateInputs = () => {
+    const newErrors = {};
+
+    const isValidNumber = (value) => {
+      return /^-?\d+(\.\d+)?$/.test(value);
+    };
+  
+    if (!formData.name) newErrors.name = "Name is required!";
+    if (!formData.bdate) newErrors.bdate = "Birth date is required!";
+    if (!formData.sex) newErrors.sex = "Gender is required!";
+    if (!formData.mtongue) newErrors.mtongue = "Mother tongue is required!";
+    if (!formData.p_address) newErrors.p_address = "Primary address is required!";
+    if (!formData.p_phone) {
+      newErrors.p_phone = "Primary phone number is required!";
+    } else if (formData.p_phone.length !== 12) {
+      newErrors.p_phone = "Phone number is incorrect!";
     }
+    if (formData.s_phone && !isValidNumber(formData.s_phone)) {
+      newErrors.s_phone = "Phone number is incorrect!";
+    }
+    if (!formData.f_name) newErrors.f_name = "Father's name is required!";
+    if (!formData.m_name) newErrors.m_name = "Mother's name is required!";
+
+    if (formData.distance && !isValidNumber(formData.distance)) {
+      newErrors.distance = "Enter a valid numerical value in kilometers!";
+    }
+    if (formData.m_income && !isValidNumber(formData.m_income)) {
+      newErrors.m_income = "Enter a valid numerical value!!";
+    }
+  
+    return newErrors;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const newErrors = validateInputs();
+    setErrors(newErrors);
+  
+    if (Object.keys(newErrors).length > 0) {
+      // If there are errors, do not proceed
+      return;
+    }
 
     try {
       //Error handling)
@@ -267,7 +309,7 @@ function StudentForm() {
         alert(
           `Application submitted successfully\n \n Your application ID is : ${formDataData.id}`
         );
-        generatePDF(formData);
+        // generatePDF(formData);
         navigate("/homepage");
       } else {
         alert("Data entry failed");
@@ -319,20 +361,28 @@ function StudentForm() {
               <label for="name" class="form-label block font-semibold">
                 {data.NAME}* :
               </label>
-              <input
-                type="text"
-                name="name"
-                id="name"
-                value={formData.name}
-                onChange={handleChange}
-                class="form-input border  rounded-md px-1 py-1 mt-1 mb-1 "
-                required
-              />
+               <div className="relative">
+          <input
+            type="text"
+            name="name"
+            id="name"
+            value={formData.name}
+            onChange={handleChange}
+            className={`form-input border rounded-md px-1 py-1 mt-1 mb-1 ${errors.name ? "border-red-500" : ""}`}
+          />
+          {errors.name && (
+            <div className="absolute top-full left-0 mt-1 bg-red-500 text-white text-sm py-1 px-2 rounded shadow-lg">
+              {errors.name}
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-full border-8 border-transparent border-b-red-500"></div>
             </div>
+          )}
+        </div>
+      </div>
             <div class="mb-2">
               <label for="dateOfBirth" class="form-label block font-semibold">
                 {data.BDATE}* :
               </label>
+              <div className="relative">
               <input
                 type="date"
                 name="bdate"
@@ -340,8 +390,14 @@ function StudentForm() {
                 value={formData.bdate}
                 onChange={handleChange}
                 class="form-input px-3 py-1 mt-1 mb-1"
-                required
               />
+              {errors.bdate && (
+            <div className="absolute top-full left-0 mt-1 bg-red-500 text-white text-sm py-1 px-2 rounded shadow-lg">
+              {errors.bdate}
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-full border-8 border-transparent border-b-red-500"></div>
+            </div>
+          )}
+              </div>
             </div>
             <div class="mb-2">
               <label for="gender" class="form-label block font-semibold">
@@ -363,6 +419,7 @@ function StudentForm() {
               <label for="motherTongue" class="form-label block font-semibold">
                 {data.Mtongue}* :
               </label>
+              <div className="relative">
               <input
                 type="text"
                 name="mtongue"
@@ -370,8 +427,14 @@ function StudentForm() {
                 value={formData.mtongue}
                 onChange={handleChange}
                 class="form-input border  rounded-md px-3 py-1 mt-1 mb-1"
-                required
               />
+               {errors.mtongue && (
+            <div className="absolute top-full left-0 mt-1 bg-red-500 text-white text-sm py-1 px-2 rounded shadow-lg">
+              {errors.mtongue}
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-full border-8 border-transparent border-b-red-500"></div>
+            </div>
+          )}
+          </div>
             </div>
             <div class="mb-2">
               <label for="religion" class="form-label block font-semibold">
@@ -406,19 +469,27 @@ function StudentForm() {
               >
                 {data.P_ADDRESS}* :
               </label>
+              <div className="relative">
               <textarea
                 name="p_address"
                 id="p_address"
                 value={formData.p_address}
                 onChange={handleChange}
                 class="form-input border rounded-md px-3 py-1 mt-1 mb-1 h-40 w-3/4"
-                required
               ></textarea>
+              {errors.p_address && (
+            <div className="absolute top-full left-0 mt-1 bg-red-500 text-white text-sm py-1 px-2 rounded shadow-lg">
+              {errors.p_address}
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-full border-8 border-transparent border-b-red-500"></div>
+            </div>
+          )}
+              </div>
             </div>
             <div class="mb-2">
               <label for="primaryPhone" class="form-label block font-semibold">
                 {data.P_PHONE}* :
               </label>
+              <div className="relative">
               <input
                 type="text"
                 name="p_phone"
@@ -428,11 +499,19 @@ function StudentForm() {
                 class="form-input border  rounded-md px-3 py-1 mt-1 mb-1"
                 required
               />
+               {errors.p_phone && (
+            <div className="absolute top-full left-0 mt-1 bg-red-500 text-white text-sm py-1 px-2 rounded shadow-lg">
+              {errors.p_phone}
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-full border-8 border-transparent border-b-red-500"></div>
+            </div>
+          )}
+              </div>
             </div>
             <div class="mb-2">
               <label for="distance" class="form-label block font-semibold">
                 {data.DISTANCE} :
               </label>
+              <div className="relative">
               <input
                 type="text"
                 name="distance"
@@ -441,6 +520,13 @@ function StudentForm() {
                 onChange={handleChange}
                 class="form-input border  rounded-md px-3 py-1 mt-1 mb-1 "
               />
+              {errors.distance && (
+            <div className="absolute top-full left-0 mt-1 bg-red-500 text-white text-sm py-1 px-2 rounded shadow-lg">
+              {errors.distance}
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-full border-8 border-transparent border-b-red-500"></div>
+            </div>
+          )}
+          </div>
             </div>
           </div>
         </div>
@@ -454,6 +540,7 @@ function StudentForm() {
               >
                 {data["F_NAME "]}* :
               </label>
+              <div className="relative">
               <input
                 type="text"
                 name="f_name"
@@ -461,15 +548,21 @@ function StudentForm() {
                 value={formData.f_name}
                 onChange={handleChange}
                 className="form-input border rounded-md"
-                required
               />
+               {errors.f_name && (
+            <div className="absolute top-full left-0 mt-1 bg-red-500 text-white text-sm py-1 px-2 rounded shadow-lg">
+              {errors.f_name}
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-full border-8 border-transparent border-b-red-500"></div>
+            </div>
+          )}
+              </div>
             </div>
             <div class="mb-2">
               <label
                 for="parentEducation"
                 class="form-label block font-semibold"
               >
-                {data.F_QUALI}* :
+                {data.F_QUALI} :
               </label>
               <input
                 type="text"
@@ -478,7 +571,6 @@ function StudentForm() {
                 value={formData.f_quali}
                 onChange={handleChange}
                 class="form-input border rounded-md"
-                required
               />
             </div>
             <div class="mb-2">
@@ -486,7 +578,7 @@ function StudentForm() {
                 for="parentEducation"
                 class="form-label block font-semibold"
               >
-                {data.F_OCC}* :
+                {data.F_OCC} :
               </label>
               <input
                 type="text"
@@ -495,13 +587,13 @@ function StudentForm() {
                 value={formData.f_occ}
                 onChange={handleChange}
                 class="form-input border rounded-md"
-                required
               />
             </div>
             <div class="mb-2">
               <label for="motherName" class="form-label block font-semibold">
                 {data["M_NAME "]}* :
               </label>
+              <div className="relative">
               <input
                 type="text"
                 name="m_name"
@@ -509,12 +601,18 @@ function StudentForm() {
                 value={formData.m_name}
                 onChange={handleChange}
                 class="form-input border  rounded-md px-3 py-1 mt-1 mb-1"
-                required
               />
+                {errors.m_name && (
+            <div className="absolute top-full left-0 mt-1 bg-red-500 text-white text-sm py-1 px-2 rounded shadow-lg">
+              {errors.m_name}
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-full border-8 border-transparent border-b-red-500"></div>
+            </div>
+          )}
+              </div>
             </div>
             <div class="mb-2">
               <label for="motherName" class="form-label block font-semibold">
-                {data.M_QUALI}* :
+                {data.M_QUALI} :
               </label>
               <input
                 type="text"
@@ -523,12 +621,11 @@ function StudentForm() {
                 value={formData.m_quali}
                 onChange={handleChange}
                 class="form-input border  rounded-md px-3 py-1 mt-1 mb-1"
-                required
               />
             </div>
             <div class="mb-2">
               <label for="motherName" class="form-label block font-semibold">
-                {data.M_OCC}* :
+                {data.M_OCC} :
               </label>
               <input
                 type="text"
@@ -537,7 +634,6 @@ function StudentForm() {
                 value={formData.m_occ}
                 onChange={handleChange}
                 class="form-input border  rounded-md px-3 py-1 mt-1 mb-1"
-                required
               />
             </div>
             <div class="mb-2">
@@ -557,6 +653,7 @@ function StudentForm() {
               <label for="monthlyIncome" class="form-label block font-semibold">
                 {data.M_INCOME} :
               </label>
+              <div className="relative">
               <input
                 type="text"
                 name="m_income"
@@ -565,6 +662,13 @@ function StudentForm() {
                 onChange={handleChange}
                 class="form-input border rounded-md px-3 py-1 mt-1 mb-1"
               />
+               {errors.m_income && (
+            <div className="absolute top-full left-0 mt-1 bg-red-500 text-white text-sm py-1 px-2 rounded shadow-lg">
+              {errors.m_income}
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-full border-8 border-transparent border-b-red-500"></div>
+            </div>
+          )}
+              </div>
             </div>
           </div>
           <br></br>
@@ -588,6 +692,7 @@ function StudentForm() {
               >
                 {data.S_PHONE}:
               </label>
+              <div className="relative">
               <input
                 type="text"
                 name="s_phone"
@@ -596,6 +701,13 @@ function StudentForm() {
                 onChange={handleChange}
                 className="form-input border rounded-md"
               />
+               {errors.s_phone && (
+            <div className="absolute top-full left-0 mt-1 bg-red-500 text-white text-sm py-1 px-2 rounded shadow-lg">
+              {errors.s_phone}
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-full border-8 border-transparent border-b-red-500"></div>
+            </div>
+          )}
+              </div>
             </div>
             <div class="mb-2">
               <label for="email" class="form-label block font-semibold">

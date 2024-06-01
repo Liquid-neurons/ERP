@@ -45,7 +45,7 @@ function Login() {
           setUserEmail(formData.email);
           setUserRole(data.role)
           if(data.role=='applicant'){
-            alert("Login successful");
+            alert("Login successful!");
             // Redirect to home page
             navigate("/homepage");
           }
@@ -57,7 +57,7 @@ function Login() {
             }
           }
         } else {
-          alert("Not authorised");
+          alert("Invalid credentials!");
         }
       })
       .catch((error) => {
