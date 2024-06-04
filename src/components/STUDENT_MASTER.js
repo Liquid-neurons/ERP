@@ -346,7 +346,7 @@ function StudentForm() {
             <h2 className="text-xl font-bold mb-4">Student Details</h2>
             <div className="mb-2">
               <label htmlFor="image" className="form-label block font-semibold">
-                {data.IMAGE}* :
+                {data.IMAGE}* 
               </label>
               <input
                 type="file"
@@ -359,7 +359,7 @@ function StudentForm() {
             </div>
             <div class="mb-2">
               <label for="name" class="form-label block font-semibold">
-                {data.NAME}* :
+                {data.NAME}* 
               </label>
                <div className="relative">
           <input
@@ -380,7 +380,7 @@ function StudentForm() {
       </div>
             <div class="mb-2">
               <label for="dateOfBirth" class="form-label block font-semibold">
-                {data.BDATE}* :
+                {data.BDATE}* 
               </label>
               <div className="relative">
               <input
@@ -401,7 +401,7 @@ function StudentForm() {
             </div>
             <div class="mb-2">
               <label for="gender" class="form-label block font-semibold">
-                {data["SEX "]}* :
+                {data["SEX "]}* 
               </label>
               <select
                 name="sex"
@@ -438,7 +438,7 @@ function StudentForm() {
             </div>
             <div class="mb-2">
               <label for="religion" class="form-label block font-semibold">
-                {data.Religion} :
+                {data.Religion} 
               </label>
               <input
                 type="text"
@@ -451,7 +451,7 @@ function StudentForm() {
             </div>
             <div class="mb-2">
               <label for="cast" class="form-label block font-semibold">
-                {data.caste} :
+                {data.caste} 
               </label>
               <input
                 type="text"
@@ -467,7 +467,7 @@ function StudentForm() {
                 for="primaryAddress"
                 class="form-label block font-semibold"
               >
-                {data.P_ADDRESS}* :
+                {data.P_ADDRESS}* 
               </label>
               <div className="relative">
               <textarea
@@ -487,7 +487,7 @@ function StudentForm() {
             </div>
             <div class="mb-2">
               <label for="primaryPhone" class="form-label block font-semibold">
-                {data.P_PHONE}* :
+                {data.P_PHONE}* 
               </label>
               <div className="relative">
               +<input
@@ -509,7 +509,7 @@ function StudentForm() {
             </div>
             <div class="mb-2">
               <label for="distance" class="form-label block font-semibold">
-                {data.DISTANCE} :
+                {data.DISTANCE} 
               </label>
               <div className="relative">
               <input
@@ -538,7 +538,7 @@ function StudentForm() {
                 htmlFor="fatherName"
                 className="form-label block font-semibold"
               >
-                {data["F_NAME "]}* :
+                {data["F_NAME "]}* 
               </label>
               <div className="relative">
               <input
@@ -591,7 +591,7 @@ function StudentForm() {
             </div>
             <div class="mb-2">
               <label for="motherName" class="form-label block font-semibold">
-                {data["M_NAME "]}* :
+                {data["M_NAME "]}* 
               </label>
               <div className="relative">
               <input
@@ -612,7 +612,7 @@ function StudentForm() {
             </div>
             <div class="mb-2">
               <label for="motherName" class="form-label block font-semibold">
-                {data.M_QUALI} :
+                {data.M_QUALI} 
               </label>
               <input
                 type="text"
@@ -638,7 +638,7 @@ function StudentForm() {
             </div>
             <div class="mb-2">
               <label for="guardianName" class="form-label block font-semibold">
-                {data["G_NAME "]} :
+                {data["G_NAME "]} 
               </label>
               <input
                 type="text"
@@ -651,7 +651,7 @@ function StudentForm() {
             </div>
             <div class="mb-2">
               <label for="monthlyIncome" class="form-label block font-semibold">
-                {data.M_INCOME} :
+                {data.M_INCOME} 
               </label>
               <div className="relative">
               <input
@@ -690,7 +690,7 @@ function StudentForm() {
                 htmlFor="secondaryPhone"
                 className="form-label block font-semibold"
               >
-                {data.S_PHONE}:
+                {data.S_PHONE}
               </label>
               <div className="relative">
               +<input
@@ -711,7 +711,7 @@ function StudentForm() {
             </div>
             <div class="mb-2">
               <label for="email" class="form-label block font-semibold">
-                {data.MAIL}* :
+                {data.MAIL}* 
               </label>
               <input
                 type="email"
@@ -724,7 +724,7 @@ function StudentForm() {
             </div>
             <div class="mb-2">
               <label for="ailment" class="form-label block font-semibold">
-                {data.C_AILMENT}?* :
+                {data.C_AILMENT}?* 
               </label>
               <select
                 name="c_ailment"
@@ -742,7 +742,7 @@ function StudentForm() {
                 for="ailmentDetails"
                 class="form-label block font-semibold"
               >
-                {data.C_AILMENT_INFO} :
+                {data.C_AILMENT_INFO} 
               </label>
               <input
                 type="text"
@@ -758,7 +758,7 @@ function StudentForm() {
                 for="ailmentDetails"
                 class="form-label block font-semibold"
               >
-                {data["C_INFO "]} :
+                {data["C_INFO "]} 
               </label>
               <textarea
                 name="c_info"
@@ -773,7 +773,7 @@ function StudentForm() {
             <h2 className="text-xl font-bold mb-2">Certificates and records</h2>
             <div className="mb-2">
               <label htmlFor="image" className="form-label block font-semibold">
-                {data.Cert3}* :
+                {data.Cert3}* 
               </label>
               <input
                 type="file"
@@ -786,7 +786,7 @@ function StudentForm() {
             </div>
             <div className="mb-2">
               <label htmlFor="image" className="form-label block font-semibold">
-                {data.Cert1} :
+                {data.Cert1} 
               </label>
               <input
                 type="file"
@@ -798,7 +798,7 @@ function StudentForm() {
             </div>
             <div className="mb-2">
               <label htmlFor="image" className="form-label block font-semibold">
-                {data.Cert4} :
+                {data.Cert4} 
               </label>
               <input
                 type="file"
@@ -810,7 +810,7 @@ function StudentForm() {
             </div>
             <div className="mb-2">
               <label htmlFor="image" className="form-label block font-semibold">
-                {data.Cert2} :
+                {data.Cert2} 
               </label>
               <input
                 type="file"
