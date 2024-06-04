@@ -490,7 +490,7 @@ function StudentForm() {
                 {data.P_PHONE}* :
               </label>
               <div className="relative">
-              <input
+              +<input
                 type="text"
                 name="p_phone"
                 id="p_phone"
@@ -519,7 +519,7 @@ function StudentForm() {
                 value={formData.distance}
                 onChange={handleChange}
                 class="form-input border  rounded-md px-3 py-1 mt-1 mb-1 "
-              />
+              /> KM
               {errors.distance && (
             <div className="absolute top-full left-0 mt-1 bg-red-500 text-white text-sm py-1 px-2 rounded shadow-lg">
               {errors.distance}
@@ -676,14 +676,14 @@ function StudentForm() {
           <div className="col-span-3 flex justify-center mt-14">
             <button
               type="submit"
-              className="form-button bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-5 px-12 rounded flex"
+              className="form-button bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-5 px-12 ounded flex"
             >
               Submit
             </button>
           </div>
         </div>
         <div>
-          <div className="border p-4 rounded-lg shadow-md">
+          <div className="border p-7 rounded-lg shadow-md">
             <h2 className="text-xl font-bold mb-2">Additional Details</h2>
             <div className="mb-2">
               <label
@@ -693,7 +693,7 @@ function StudentForm() {
                 {data.S_PHONE}:
               </label>
               <div className="relative">
-              <input
+              +<input
                 type="text"
                 name="s_phone"
                 id="s_phone"

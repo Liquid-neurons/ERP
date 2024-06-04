@@ -4,17 +4,15 @@ import { useUser } from '../contexts/context';
 
 function ListStatus() {
   const { userEmail } = useUser();
-  const [applicationIds, setApplicationIds] = useState([]);
+  const [applicationStatus, setApplicationStatus] = useState([]);
 
-
-
-  // Fetch application IDs from backend when component mounts
+  // Fetch application IDs and status codes from backend when component mounts
   useEffect(() => {
-    fetchApplicationIds();
+    fetchApplicationStatus();
   }, []);
 
-  // Function to fetch application IDs from backend
-  const fetchApplicationIds = async () => {
+  // Function to fetch application IDs and status codes from backend
+  const fetchApplicationStatus = async () => {
     try {
       const UserEmail = userEmail; // Get user's email from the context
       const response = await fetch('http://49.206.252.212:5000/status-application-ids', {
@@ -29,10 +27,23 @@ function ListStatus() {
       }
       const data = await response.json();
       console.log(data);
-      setApplicationIds(data);
+      setApplicationStatus(data);
     } catch (error) {
-      console.error('Error fetching application IDs:', error);
+      console.error('Error fetching application status:', error);
       // Optionally, you can handle errors here
+    }
+  };
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'Submitted':
+        return 'text-yellow-500';
+      case 'Accepted':
+        return 'text-green-500';
+      case 'Rejected':
+        return 'text-red-500';
+      default:
+        return 'text-gray-500';
     }
   };
 
@@ -48,23 +59,21 @@ function ListStatus() {
           </tr>
         </thead>
         <tbody>
-          {applicationIds.length > 0 ? (
-            applicationIds.map(applicationId => (
-              <tr key={applicationId}>
-                <td className="border px-4 py-2">{applicationId}</td>
+          {applicationStatus.length > 0 ? (
+            applicationStatus.map(({ application_id, status }) => (
+              <tr key={application_id}>
+                <td className="border px-4 py-2">{application_id}</td>
                 <td className="border px-4 py-2">
-                <Link to={`/view-application/${applicationId}`} className=" bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded">
-                    View 
+                  <Link to={`/view-application/${application_id}`} className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded">
+                    View
                   </Link>
                 </td>
-                <td className="border px-4 py-2">
-               
-                </td>
+                <td className={`border px-4 py-2 ${getStatusColor(status)}`}>{status}</td>
               </tr>
             ))
           ) : (
             <tr>
-              <td className="border px-4 py-2" colSpan="2">No new applications</td>
+              <td className="border px-4 py-2" colSpan="3">No new applications</td>
             </tr>
           )}
         </tbody>
