@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate,Link } from "react-router-dom";
 import { useUser } from "./contexts/context";
+import { getConfig } from "./contexts/config";
 
 
 function Login() {
+  const { api } = getConfig();
   const navigate = useNavigate();
   const { setUserEmail, setUserRole } = useUser(); 
 
@@ -27,7 +29,7 @@ function Login() {
     const jsonData = JSON.stringify(formData);
 
     // Send JSON data to backend
-    fetch("http://49.206.252.212:5000/login", {
+    fetch(`${api.base_url}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

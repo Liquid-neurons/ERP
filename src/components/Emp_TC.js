@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { getConfig } from './contexts/config';
 
 function EmployeeForm() {
   const [formData, setFormData] = useState({
@@ -9,6 +10,8 @@ function EmployeeForm() {
     TIME_OUT: '',
     ALLOWED_LATE: ''
   });
+
+  const {api}=getConfig();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,7 +30,7 @@ function EmployeeForm() {
     console.log(formData);
   
     // Send JSON data to backend
-    fetch('http://49.206.252.212:5000/Emp_TC', {
+    fetch(`${api.base_url}/Emp_TC`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

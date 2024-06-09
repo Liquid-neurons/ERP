@@ -4,11 +4,13 @@ import { useUser } from "./contexts/context";
 import { saveAs } from "file-saver";
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 import { useNavigate, useParams } from "react-router-dom";
+import { getConfig } from './contexts/config';
 
 function StudentForm() {
   const [data, setData] = useState({});
   const { userEmail } = useUser();
   const [errors, setErrors] = useState({});
+  const{api}=getConfig();
 
   const navigate = useNavigate();
 
@@ -17,7 +19,7 @@ function StudentForm() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://49.206.252.212:5000/student-master-desc"
+          `${api.base_url}/student-master-desc`
         ); // Assuming your backend server is running on the same host
         if (!response.ok) {
           throw new Error("Failed to fetch data");
@@ -289,7 +291,7 @@ function StudentForm() {
       console.log(formDataToSend);
       // Send the form data and files separately
       const formDataResponse = await fetch(
-        "http://49.206.252.212:5000/STUDENT_MASTER",
+        `${api.base_url}/STUDENT_MASTER`,
         {
           method: "POST",
           headers: {

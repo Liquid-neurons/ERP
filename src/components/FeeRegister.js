@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { getConfig } from './contexts/config';
 
 function FeeRegister() {
   const navigate = useNavigate();
@@ -35,12 +36,14 @@ function FeeRegister() {
     A_DATE: "",
   });
 
+  const {api}=getConfig();
+
   useEffect(() => {
     // Define a function to fetch data from your backend API
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://49.206.252.212:5000/fee-master-desc"
+          `${api.base_url}/fee-master-desc`
         ); // Assuming your backend server is running on the same host
         if (!response.ok) {
           throw new Error("Failed to fetch data");
@@ -56,7 +59,7 @@ function FeeRegister() {
     const fetchInstCodes = async () => {
       try {
         const response = await fetch(
-          "http://49.206.252.212:5000/fetch-inst_codes"
+          `${api.base_url}/fetch-inst_codes`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch institute codes");
@@ -97,7 +100,7 @@ function FeeRegister() {
     console.log(formData);
 
     // Send JSON data to backend
-    fetch("http://49.206.252.212:5000/fee-register", {
+    fetch(`${api.base_url}/fee-register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -128,7 +131,7 @@ function FeeRegister() {
   const fetchGrades = async (e) => {
     try {
       const institute = formData.INSTITUTE;
-      const response = await fetch("http://49.206.252.212:5000/fetch-grades", {
+      const response = await fetch(`${api.base_url}/fetch-grades`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

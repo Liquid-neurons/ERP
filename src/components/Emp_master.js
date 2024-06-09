@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { getConfig } from './contexts/config';
 
 function EmployeeForm() {
   const [formData, setFormData] = useState({
@@ -21,6 +22,8 @@ function EmployeeForm() {
     M_NAME: '',
     EDUCATIONAL_QUALIFICATION:''
   });
+
+  const { api } = getConfig();
 
   const [file, setFile] = useState(null);
 
@@ -55,7 +58,7 @@ function EmployeeForm() {
         console.log(jsonData);
 
         // Send JSON data to backend
-        fetch("http://49.206.252.212:5000/Emp_master", {
+        fetch(`${api.base_url}/Emp_master`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -87,7 +90,7 @@ function EmployeeForm() {
       };
     } else {
       // If no image file is selected, send only the form data
-      fetch("http://49.206.252.212:5000/Emp_master", {
+      fetch(`${api.base_url}/Emp_master`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

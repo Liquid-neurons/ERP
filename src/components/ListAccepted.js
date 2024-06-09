@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
+import { getConfig } from './contexts/config';
 
 function ListAccepted() {
     const [applications, setApplications] = useState([]);
     const [registrationStatus, setRegistrationStatus] = useState([]);
     const [siblingStatus, setSiblingStatus] = useState([]);
+    const{api}=getConfig();
 
     // Fetch application IDs and fee registration status from backend when component mounts
     useEffect(() => {
@@ -16,7 +18,7 @@ function ListAccepted() {
     // Function to fetch application IDs from backend
     const fetchApplicationIds = async () => {
       try {
-        const response = await fetch('http://49.206.252.212:5000/accepted-ids');
+        const response = await fetch(`${api.base_url}/accepted-ids`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -31,7 +33,7 @@ function ListAccepted() {
     // Function to fetch fee registration status from backend
     const fetchRegistrationStatus = async () => {
         try {
-            const response = await fetch('http://49.206.252.212:5000/fee-registration-status');
+            const response = await fetch(`${api.base_url}/fee-registration-status`);
             if (!response.ok) {
               throw new Error('Network response was not ok');
             }
@@ -47,7 +49,7 @@ function ListAccepted() {
       // Function to fetch sibling registration status from backend
       const fetchSiblingStatus = async () => {
         try {
-            const response = await fetch('http://49.206.252.212:5000/sibling-registration-status');
+            const response = await fetch(`${api.base_url}/sibling-registration-status`);
             if (!response.ok) {
               throw new Error('Network response was not ok');
             }

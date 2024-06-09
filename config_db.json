@@ -1,0 +1,16 @@
+{
+    "db1": {
+        "host": "49.206.252.212",
+        "user": "harish",
+        "password": "harish",
+        "database": "LMS",
+        "port": "63306"
+    },
+    "db2": {
+        "host": "49.206.252.212",
+        "user": "harish",
+        "password": "harish",
+        "database": "config",
+        "port": "63306"
+    }
+}

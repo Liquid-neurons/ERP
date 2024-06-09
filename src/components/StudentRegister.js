@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
+import { getConfig } from './contexts/config';
+
 
 function StudentRegister() {
+const{api}=getConfig();
 const navigate = useNavigate();
 const { applicationId } = useParams();  
 const [formData, setFormData] = useState({
@@ -38,7 +41,7 @@ const [formData, setFormData] = useState({
     console.log(formData);
   
     // Send JSON data to backend
-    fetch('http://49.206.252.212:5000/student-register', {
+    fetch(`${api.base_url}/student-register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

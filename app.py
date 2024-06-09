@@ -10,22 +10,13 @@ import re
 app = Flask(__name__)
 CORS(app)  # This will enable CORS for all routes
 
-db_config = {
-    'host': '49.206.252.212',
-    'user': 'harish',
-    'password': 'harish',
-    'database': 'LMS',
-    'port': '63306'  
-}
+# Load configuration from file
+with open('config_db.json') as config_file:
+    config = json.load(config_file)
 
+db_config = config['db1']
 
-db_config2 = {
-    'host': '49.206.252.212',
-    'user': 'harish',
-    'password': 'harish',
-    'database': 'config',
-    'port': '63306'  
-}
+db_config2 = config['db2']
 
 @app.route('/Emp_TC', methods=['POST'])
 def submit_Emp_TC():
@@ -394,33 +385,44 @@ def fetch_application_ids():
 
 from flask import request
 
+def get_status_text(status_code):
+    status_code = str(status_code)
+    if status_code == '3':
+        return 'Submitted'
+    elif status_code == '10':
+        return 'Accepted'
+    elif status_code == '11':
+        return 'Rejected'
+    else:
+        return status_code
+
 @app.route('/status-application-ids', methods=['POST'])
 def fetch_application_status_ids():
     try:
         # Get email from the request
         data = request.json
         email = data.get('UserEmail')
-
         # Connect to MySQL database
         conn = mysql.connector.connect(**db_config)
         cursor = conn.cursor()
-
-        # Execute query to fetch application IDs for the provided email
-        cursor.execute("SELECT APPLICATION_ID,STATUS_CODE FROM STUDENT_MASTER WHERE MAIL=%s", (email,))
+        # Execute query to fetch application IDs and status codes for the provided email
+        cursor.execute("SELECT APPLICATION_ID, STATUS_CODE FROM STUDENT_MASTER WHERE MAIL=%s", (email,))
         
         # Fetch all rows
         rows = cursor.fetchall()
-
         # Close cursor and connection
         cursor.close()
         conn.close()
-
-        # Extract application IDs from rows
-        application_ids = [row[0] for row in rows]
-
-        # Return application IDs as JSON response
-        return jsonify(application_ids)
-
+        
+        # Create a list of dictionaries with application IDs and status text
+        application_status = []
+        for row in rows:
+            application_id, status_code = row
+            status_text = get_status_text(status_code)
+            application_status.append({'application_id': application_id, 'status': status_text})
+        
+        # Return application IDs and status text as JSON response
+        return jsonify(application_status)
     except Exception as e:
         return jsonify({'error': str(e)})
         

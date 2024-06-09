@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { fromByteArray } from 'base64-js';
+import { getConfig } from './contexts/config';
 
 
 function ViewApplication() {
@@ -11,13 +12,14 @@ function ViewApplication() {
   const [isLoading, setIsLoading] = useState(true); // State to track loading status
   const [error, setError] = useState(null); // State to track errors
   const [data,setData]=useState(null);
+  const{api}=getConfig();
 
   useEffect(() => {
     // Function to fetch student data based on the application ID
     const fetchStudentData = async () => {
       try {
         const response = await fetch(
-          "http://49.206.252.212:5000/student-data",
+          `${api.base_url}/student-data`,
           {
             method: "POST",
             headers: {
@@ -42,7 +44,7 @@ function ViewApplication() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://49.206.252.212:5000/student-master-desc"
+          `${api.base_url}/student-master-desc`
         ); // Assuming your backend server is running on the same host
         if (!response.ok) {
           throw new Error("Failed to fetch data");

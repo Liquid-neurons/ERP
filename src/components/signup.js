@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate,Link } from "react-router-dom";
+import { getConfig } from './contexts/config';
 
 function Signup() {
   const navigate = useNavigate();
+  const {api}=getConfig();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -24,7 +26,7 @@ function Signup() {
     const jsonData = JSON.stringify(formData);
 
     // Send JSON data to backend
-    fetch("http://49.206.252.212:5000/signup", {
+    fetch(`${api.base_url}/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

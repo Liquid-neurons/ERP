@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import { useUser } from '../contexts/context';
+import { getConfig } from '../contexts/config';
 
 function ListStatus() {
   const { userEmail } = useUser();
   const [applicationStatus, setApplicationStatus] = useState([]);
+  const { api } = getConfig();
 
   // Fetch application IDs and status codes from backend when component mounts
   useEffect(() => {
@@ -15,7 +17,7 @@ function ListStatus() {
   const fetchApplicationStatus = async () => {
     try {
       const UserEmail = userEmail; // Get user's email from the context
-      const response = await fetch('http://49.206.252.212:5000/status-application-ids', {
+      const response = await fetch(`${api.base_url}/status-application-ids`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

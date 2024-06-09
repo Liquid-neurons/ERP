@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
+import { getConfig } from './contexts/config';
 
 function ListNew() {
   const [applicationIds, setApplicationIds] = useState([]);
+  const{api}=getConfig();
 
   // Fetch application IDs from backend when component mounts
   useEffect(() => {
@@ -12,7 +14,7 @@ function ListNew() {
   // Function to fetch application IDs from backend
   const fetchApplicationIds = async () => {
     try {
-      const response = await fetch('http://49.206.252.212:5000/application-ids');
+      const response = await fetch(`${api.base_url}/application-ids`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }

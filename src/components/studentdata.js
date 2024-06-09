@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { fromByteArray } from "base64-js";
+import { getConfig } from './contexts/config';
 
 function StudentData() {
   const navigate = useNavigate();
+  const{api}=getConfig();
 
   const { applicationId } = useParams(); // Get the application ID from the URL
   const [studentData, setStudentData] = useState(null); // State to store student data
@@ -16,7 +18,7 @@ function StudentData() {
     const fetchStudentData = async () => {
       try {
         const response = await fetch(
-          "http://49.206.252.212:5000/student-data",
+          `${api.base_url}/student-data`,
           {
             method: "POST",
             headers: {
@@ -42,7 +44,7 @@ function StudentData() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://49.206.252.212:5000/student-master-desc"
+          `${api.base_url}/student-master-desc`
         ); // Assuming your backend server is running on the same host
         if (!response.ok) {
           throw new Error("Failed to fetch data");
@@ -84,7 +86,7 @@ function StudentData() {
   }
   const handleAccept = async () => {
     try {
-      const response = await fetch("http://49.206.252.212:5000/status-update", {
+      const response = await fetch(`${api.base_url}/status-update`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -110,7 +112,7 @@ function StudentData() {
 
   const handleReject = async () => {
     try {
-      const response = await fetch("http://49.206.252.212:5000/status-update", {
+      const response = await fetch(`${api.base_url}/status-update`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
